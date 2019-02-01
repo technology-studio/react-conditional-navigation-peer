@@ -22,7 +22,15 @@
     "republish": "npm unpublish $(cat package.json | jq -r '.name')@$(cat package.json | jq -r '.version') && yarn publish --new-version $(cat package.json | jq -r '.version')"
   },
   "dependencies": {
+    "@txo/config-manager": "^1.1.0",
+    "@txo/flow": "^1.0.0",
+    "immutability-helper": "^2.9.0",
+    "prop-types": "^15.6.2",
+    "react-navigation-redux-helpers": "^2.0.9"
   },
   "peerDependencies": {
+    "@txo-peer-dep/log": "^1.0.1",
+    "redux": "^4.0.1",
+    "react-redux": "^6.0.0"
   }
 }
