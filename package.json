@@ -33,16 +33,14 @@
     }
   },
   "dependencies": {
-    "@txo-peer-dep/log": "^1.0.1",
     "@txo/config-manager": "^1.1.0",
     "@txo/flow": "^1.0.0",
     "immutability-helper": "^2.9.0",
     "prop-types": "^15.7.1",
-    "react-navigation-redux-helpers": "^3.0.0",
-    "react-redux": "^6.0.0",
-    "redux": "^4.0.1"
+    "react-navigation-redux-helpers": "^3.0.0"
   },
   "devDependencies": {
+    "@txo-peer-dep/log": "^1.0.1",
     "@babel/core": "^7.2.2",
     "@txo/babel-preset": "^1.0.0",
     "babel-core": "^7.0.0-bridge.0",
@@ -67,7 +65,9 @@
     "jest": "^24.1.0",
     "react": "16.6.3",
     "react-dom": "16.6.3",
-    "react-navigation": "^3.2.1"
+    "react-navigation": "^3.2.1",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1"
   },
   "jest": {
     "testMatch": [
