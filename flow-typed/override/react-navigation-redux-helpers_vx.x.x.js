@@ -27,8 +27,8 @@ import React from 'react'
 declare module 'react-navigation-redux-helpers' {
   // Current
   declare export function createReactNavigationReduxMiddleware<State: {}>(
-    key: string,
     navStateSelector: (state: State) => NavigationState,
+    key?: string,
   ): Middleware<State, *, *>;
 
   declare type RequiredProps<State: NavigationState> = {
@@ -39,13 +39,13 @@ declare module 'react-navigation-redux-helpers' {
     navigation: NavigationScreenProp<State>,
   };
 
-  declare export function reduxifyNavigator<State: NavigationState, Props: RequiredProps<State>>(
+  declare export function createReduxContainer<State: NavigationState, Props: RequiredProps<State>>(
     Navigator: NavigationContainer<
       State,
       *,
       $Diff<Props, RequiredProps<State>>,
     >,
-    key: string,
+    key?: string,
   ): React.ComponentType<Props>;
 
 }
