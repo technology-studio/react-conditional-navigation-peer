@@ -1,6 +1,6 @@
 {
   "name": "@txo-peer-dep/react-conditional-navigation",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Technology Studio - React conditional navigation",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -24,13 +24,13 @@
   "dependencies": {
     "@txo/config-manager": "^1.1.0",
     "@txo/flow": "^1.0.0",
-    "immutability-helper": "^2.9.0",
+    "immutability-helper": "^3.0.1",
     "prop-types": "^15.7.2",
     "react-navigation-redux-helpers": "^3.0.0"
   },
   "peerDependencies": {
     "@txo-peer-dep/log": "^1.0.1",
     "redux": "^4.0.1",
-    "react-redux": "^6.0.0"
+    "react-redux": "^7.1.0"
   }
 }
