@@ -11,7 +11,7 @@ import {
   type NavigationRoute,
   type NavigationRouter,
 } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import type { Condition } from '../../Model/Types'
 

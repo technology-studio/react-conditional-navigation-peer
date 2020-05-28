@@ -32,6 +32,7 @@
   "dependencies": {
     "@txo/config-manager": "^2.0.1",
     "@txo/flow": "^2.0.0",
+    "@txo/log": "^1.0.0",
     "immutability-helper": "^3.0.2",
     "prop-types": "^15.7.2",
     "react-navigation-redux-helpers": "^3.0.0"

@@ -11,7 +11,7 @@ import {
   StackActions as stackActions,
 } from 'react-navigation'
 import type { NavigationRouter, NavigationState } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import { conditionalNavigationManager } from '../../Api/ConditionalNavigationManager'
 import type { NavigationReducer } from '../../Model/Types'

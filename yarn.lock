@@ -1611,6 +1611,11 @@
   resolved "https://registry.yarnpkg.com/@txo/log-console/-/log-console-2.0.0.tgz#9dd0b90af3b4380fe1107bfce3dae908a75d312a"
   integrity sha512-p9ece7Z4Mtcz9K9bL7SU2DgIPmGNmST5eiLSX9cAEl1F3WyrSAswxwUQtBggG6esyk/kv4TMifA2qu7Njgf70A==
 
+"@txo/log@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@txo/log/-/log-1.0.0.tgz#690ddd05fa3568833ebb95a521dd3b2caf23a917"
+  integrity sha512-zEIkfLqEK9mClHcqOAq+PTXg7yWmNmHmNNurJJVtg8gq1ZIb/FJtBRXqWRICkmhQ7RfCnilrclcnFlEhLyvNFw==
+
 "@types/babel__core@^7.1.7":
   version "7.1.7"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.7.tgz#1dacad8840364a57c98d0dd4855c6dd3752c6b89"
