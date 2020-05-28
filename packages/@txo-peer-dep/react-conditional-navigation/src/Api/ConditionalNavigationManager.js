@@ -63,5 +63,5 @@ export const conditionalNavigationManager = new ConditionalNavigationManager()
 
 export const registerResolveCondition = <CONDITION: Condition>(
   conditionKey: string,
-  resolveCondition: ResolveCondition<CONDITION>
+  resolveCondition: ResolveCondition<CONDITION>,
 ) => conditionalNavigationManager.registerResolveCondition(conditionKey, resolveCondition)

@@ -44,7 +44,7 @@ export const backReducer = <STATE: NavigationState>(
         routeName && backToRouteName
           ? navigationCreators.navigate({ routeName, key: newKey })
           : navigationCreators.back({ key: newKey }),
-        previousState
+        previousState,
       ) || previousState
       log.debug('B: NEW STATE', { previousState, newState })
       return newState

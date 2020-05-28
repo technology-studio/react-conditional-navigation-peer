@@ -36,7 +36,7 @@ export const abstractFlowRedurerFactory = <STATE: NavigationState, ROOT_STATE>(
     postponedAction: *,
     action: *,
     rootState: ROOT_STATE,
-  ) => ?STATE
+  ) => ?STATE,
 ) => (
     router: NavigationRouter<STATE, *>,
     parentReducer: Reducer<?STATE, *>,

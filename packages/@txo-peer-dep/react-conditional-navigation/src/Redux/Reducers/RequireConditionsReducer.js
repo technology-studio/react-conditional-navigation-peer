@@ -36,7 +36,7 @@ export const requireConditionsReducer = <STATE: NavigationState, ROOT_STATE>(
     log.debug('RC: RESOLVE CONDITIONS RESULT', { conditionList, resolveConditionsResult, action })
     if (resolveConditionsResult && state) {
       const interceptedState = addConditionalNavigationToState(
-        state, resolveConditionsResult.conditionalNavigationState
+        state, resolveConditionsResult.conditionalNavigationState,
       )
       return parentReducer(interceptedState, (resolveConditionsResult.navigationAction: NavigationAction), rootState)
     }
