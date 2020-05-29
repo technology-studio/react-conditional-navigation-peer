@@ -6,7 +6,7 @@
  * @flow
  */
 
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 import type { LiteralMap } from '@txo/flow'
 
 import { configManager } from '../Config'
@@ -63,5 +63,5 @@ export const conditionalNavigationManager = new ConditionalNavigationManager()
 
 export const registerResolveCondition = <CONDITION: Condition>(
   conditionKey: string,
-  resolveCondition: ResolveCondition<CONDITION>
+  resolveCondition: ResolveCondition<CONDITION>,
 ) => conditionalNavigationManager.registerResolveCondition(conditionKey, resolveCondition)

@@ -11,7 +11,7 @@ import {
   type NavigationRoute,
   type NavigationRouter,
 } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import type { Condition } from '../../Model/Types'
 
@@ -55,7 +55,7 @@ export const extractScreenNavigationConditions = <STATE: NavigationState>(
 }
 
 export const addConditionalNavigationToState = <STATE: NavigationState>(
-  state: STATE, conditionalNavigation: ConditionalNavigationState
+  state: STATE, conditionalNavigation: ConditionalNavigationState,
 ): STATE => {
   const { index, routes } = state
   return {
@@ -65,7 +65,7 @@ export const addConditionalNavigationToState = <STATE: NavigationState>(
         ...route,
         conditionalNavigation,
       }
-      : route
+      : route,
     ),
   }
 }

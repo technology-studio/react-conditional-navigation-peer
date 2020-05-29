@@ -11,7 +11,7 @@ import {
   type NavigationRouter,
   type NavigationState,
 } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
 
 import { SUBSCRIBERS_KEY } from '../Model'

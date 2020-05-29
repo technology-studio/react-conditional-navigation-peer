@@ -37,7 +37,7 @@ const voidCreator = createActionCreator(
       type: types.VOID,
     }
     return action
-  }
+  },
 )
 
 const backCreator = createActionCreator(
@@ -61,7 +61,7 @@ const backCreator = createActionCreator(
       }
     }
     return action
-  }
+  },
 )
 
 const navigateCreator = createActionCreator(
@@ -87,7 +87,7 @@ const navigateCreator = createActionCreator(
       action.skipConditionalNavigation = payload.skipConditionalNavigation
     }
     return action
-  }
+  },
 )
 
 const cancelFlowCreator = createActionCreator(
@@ -97,7 +97,7 @@ const cancelFlowCreator = createActionCreator(
       type: types.CANCEL_FLOW,
     }
     return action
-  }
+  },
 )
 
 const finishFlowAndContinueCreator = createActionCreator(
@@ -110,7 +110,7 @@ const finishFlowAndContinueCreator = createActionCreator(
       action.params = payload.params
     }
     return action
-  }
+  },
 )
 
 const requireConditionsCreator = createActionCreator(
@@ -121,7 +121,7 @@ const requireConditionsCreator = createActionCreator(
       conditionList: payload.conditionList,
     }
     return action
-  }
+  },
 )
 
 const validateConditionsCreator = createActionCreator(
@@ -131,7 +131,7 @@ const validateConditionsCreator = createActionCreator(
       type: types.VALIDATE_CONDITIONS,
     }
     return action
-  }
+  },
 )
 
 const setParamsCreator = createActionCreator(
@@ -148,7 +148,7 @@ const setParamsCreator = createActionCreator(
       action.routeName = payload.routeName
     }
     return action
-  }
+  },
 )
 
 const allCreator = createActionCreator(
@@ -159,7 +159,7 @@ const allCreator = createActionCreator(
       actionList: actionList,
     }
     return action
-  }
+  },
 )
 
 export const creators = {

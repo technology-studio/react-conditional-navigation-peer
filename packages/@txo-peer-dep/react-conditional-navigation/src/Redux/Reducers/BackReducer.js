@@ -9,7 +9,7 @@
 import type { Reducer } from 'redux'
 import { NavigationActions as navigationCreators } from 'react-navigation'
 import type { NavigationRouter, NavigationState } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import type {
   NavigationBackAction,
@@ -44,7 +44,7 @@ export const backReducer = <STATE: NavigationState>(
         routeName && backToRouteName
           ? navigationCreators.navigate({ routeName, key: newKey })
           : navigationCreators.back({ key: newKey }),
-        previousState
+        previousState,
       ) || previousState
       log.debug('B: NEW STATE', { previousState, newState })
       return newState

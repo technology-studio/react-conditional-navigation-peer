@@ -9,7 +9,7 @@
 import type { Reducer } from 'redux'
 import { NavigationActions as navigationCreators } from 'react-navigation'
 import type { NavigationRouter, NavigationState } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import type {
   ConditionalNavigationState,
@@ -36,7 +36,7 @@ export const abstractFlowRedurerFactory = <STATE: NavigationState, ROOT_STATE>(
     postponedAction: *,
     action: *,
     rootState: ROOT_STATE,
-  ) => ?STATE
+  ) => ?STATE,
 ) => (
     router: NavigationRouter<STATE, *>,
     parentReducer: Reducer<?STATE, *>,

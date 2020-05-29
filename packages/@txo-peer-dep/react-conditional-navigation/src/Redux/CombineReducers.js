@@ -6,7 +6,7 @@
  * @flow
  */
 
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 import {
   type Reducer,
   type CombinedReducer,
@@ -20,8 +20,8 @@ const getUndefinedStateErrorMessage = (key, action: any) => {
 
   return (
     `Given ${actionDescription}, reducer "${key}" returned undefined. ` +
-    `To ignore an action, you must explicitly return the previous state. ` +
-    `If you want this reducer to hold no value, you can return null instead of undefined.`
+    'To ignore an action, you must explicitly return the previous state. ' +
+    'If you want this reducer to hold no value, you can return null instead of undefined.'
   )
 }
 

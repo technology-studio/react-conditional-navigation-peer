@@ -7,7 +7,7 @@
  */
 
 import type { NavigationRouter, NavigationState } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import type {
   NavigationAllAction,

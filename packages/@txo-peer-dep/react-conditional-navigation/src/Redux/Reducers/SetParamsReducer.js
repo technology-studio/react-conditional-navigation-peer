@@ -8,7 +8,7 @@
 
 import { NavigationActions as navigationCreators } from 'react-navigation'
 import type { NavigationRouter, NavigationState } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import type { NavigationReducer } from '../../Model/Types'
 

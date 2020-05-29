@@ -11,7 +11,7 @@ import {
   StackActions as stackActions,
 } from 'react-navigation'
 import type { NavigationRouter, NavigationState } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
 import { conditionalNavigationManager } from '../../Api/ConditionalNavigationManager'
 import type { NavigationReducer } from '../../Model/Types'
@@ -62,7 +62,7 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
       log.debug('N: RESOLVE CONDITIONS RESULT', { conditions, resolveConditionsResult, action })
       if (resolveConditionsResult && state) {
         const interceptedState = addConditionalNavigationToState(
-          state, resolveConditionsResult.conditionalNavigationState
+          state, resolveConditionsResult.conditionalNavigationState,
         )
         return parentReducer(interceptedState, (resolveConditionsResult.navigationAction: NavigationAction), rootState)
       }

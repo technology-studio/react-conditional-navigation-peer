@@ -7,40 +7,43 @@
  */
 
 import type { NavigationRouter, NavigationState } from 'react-navigation'
-import { Log } from '@txo-peer-dep/log'
+import { Log } from '@txo/log'
 
-import type { NavigationReducer } from '../../Model/Types'
 import { conditionalNavigationManager } from '../../Api/ConditionalNavigationManager'
+import type { NavigationReducer } from '../../Model/Types'
 
-import type {
-  NavigationAction,
-  NavigationRequireConditionsAction,
+import {
+  type NavigationAction,
+  type NavigationValidateConditionsAction,
 } from '../Types/NavigationReduxTypes'
 
-import { addConditionalNavigationToState } from './Utils'
+import {
+  addConditionalNavigationToState,
+  extractScreenNavigationConditions,
+} from './Utils'
 
-const log = new Log('txo.react-conditional-navigation.Redux.Reducers.requireConditionsReducer')
+const log = new Log('txo.react-conditional-navigation.Redux.Reducers.validateConditionsReducer')
 
-export const requireConditionsReducer = <STATE: NavigationState, ROOT_STATE>(
+export const validateConditionsReducer = <STATE: NavigationState, ROOT_STATE>(
   router: NavigationRouter<STATE, *>,
   parentReducer: NavigationReducer<?STATE, *, ROOT_STATE>,
   state: ?STATE,
-  action: NavigationRequireConditionsAction,
+  action: NavigationValidateConditionsAction,
   rootState: ROOT_STATE,
 ): ?STATE => {
-  const { conditionList, promiseCallbacks } = action
-  log.debug('RC: START', { state, action })
+  log.debug('VALIDATE CONDITIONS', { state, action })
 
+  const conditionList = extractScreenNavigationConditions(router, state, action, rootState)
   if (conditionList) {
     const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditionList, action)
-    log.debug('RC: RESOLVE CONDITIONS RESULT', { conditionList, resolveConditionsResult, action })
+    log.debug('VC: RESOLVE CONDITIONS RESULT', { conditionList, resolveConditionsResult, action })
     if (resolveConditionsResult && state) {
       const interceptedState = addConditionalNavigationToState(
-        state, resolveConditionsResult.conditionalNavigationState
+        state, resolveConditionsResult.conditionalNavigationState,
       )
       return parentReducer(interceptedState, (resolveConditionsResult.navigationAction: NavigationAction), rootState)
     }
   }
-  promiseCallbacks && promiseCallbacks.resolve()
+
   return state
 }
