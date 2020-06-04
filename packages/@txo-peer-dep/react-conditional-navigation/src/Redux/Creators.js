@@ -43,7 +43,7 @@ const voidCreator = createActionCreator(
 const backCreator = createActionCreator(
   types.BACK,
   (payload?: BackPayload): NavigationBackAction => {
-    const action: NavigationBackAction = {
+    const action: $Exact<{ ...NavigationBackAction }> = {
       type: types.BACK,
     }
     if (payload) {
@@ -67,7 +67,7 @@ const backCreator = createActionCreator(
 const navigateCreator = createActionCreator(
   types.NAVIGATE,
   (payload: NavigatePayload): NavigationNavigateAction => {
-    const action: NavigationNavigateAction = {
+    const action: $Exact<{ ...NavigationNavigateAction }> = {
       type: types.NAVIGATE,
       routeName: payload.routeName,
     }
@@ -103,7 +103,7 @@ const cancelFlowCreator = createActionCreator(
 const finishFlowAndContinueCreator = createActionCreator(
   types.FINISH_FLOW_AND_CONTINUE,
   (payload?: FinishFlowAndContinuePayload): NavigationFinishFlowAndContinueAction => {
-    const action: NavigationFinishFlowAndContinueAction = {
+    const action: $Exact<{ ...NavigationFinishFlowAndContinueAction }> = {
       type: types.FINISH_FLOW_AND_CONTINUE,
     }
     if (payload && payload.params) {
@@ -137,7 +137,7 @@ const validateConditionsCreator = createActionCreator(
 const setParamsCreator = createActionCreator(
   types.SET_PARAMS,
   (payload: SetParamsPayload): NavigationSetParamsAction => {
-    const action: NavigationSetParamsAction = {
+    const action: $Exact<{ ...NavigationSetParamsAction }> = {
       type: types.SET_PARAMS,
       params: payload.params,
     }

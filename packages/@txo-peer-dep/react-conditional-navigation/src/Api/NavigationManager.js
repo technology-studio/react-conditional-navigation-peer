@@ -39,11 +39,10 @@ class NavigationManager {
 
   // ATOMIC
 
-  dispatchAction <ACTION> (
-    action: {
-      type: *,
-      ...ACTION,
-    },
+  dispatchAction <ACTION: {
+      +type: *,
+    }> (
+    action: ACTION,
   ): Promise<void> {
     const dispatch = this._getDispatch()
     return new Promise((resolve, reject) => {
