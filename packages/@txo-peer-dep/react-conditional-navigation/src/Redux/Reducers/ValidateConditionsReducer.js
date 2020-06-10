@@ -35,7 +35,7 @@ export const validateConditionsReducer = <STATE: NavigationState, ROOT_STATE>(
 
   const conditionList = extractScreenNavigationConditions(router, state, action, rootState)
   if (conditionList) {
-    const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditionList, action)
+    const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditionList, action, rootState)
     log.debug('VC: RESOLVE CONDITIONS RESULT', { conditionList, resolveConditionsResult, action })
     if (resolveConditionsResult && state) {
       const interceptedState = addConditionalNavigationToState(
