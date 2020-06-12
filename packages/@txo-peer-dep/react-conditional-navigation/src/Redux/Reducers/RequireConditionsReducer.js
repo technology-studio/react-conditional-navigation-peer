@@ -32,7 +32,7 @@ export const requireConditionsReducer = <STATE: NavigationState, ROOT_STATE>(
   log.debug('RC: START', { state, action })
 
   if (conditionList) {
-    const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditionList, action)
+    const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditionList, action, rootState)
     log.debug('RC: RESOLVE CONDITIONS RESULT', { conditionList, resolveConditionsResult, action })
     if (resolveConditionsResult && state) {
       const interceptedState = addConditionalNavigationToState(

@@ -19,25 +19,26 @@ import type {
 
 const log = new Log('txo.react-conditional-navigation.Api.ConditionalNavigationManager')
 
-export type ResolveCondition<+CONDITION: Condition> = (
+export type ResolveCondition<+CONDITION: Condition, ROOT_STATE> = (
   condition: $ReadOnly<CONDITION>,
-  navigationAction: NavigationAction
+  navigationAction: NavigationAction,
+  rootState: ROOT_STATE,
 ) => ? NavigationAction
 
 class ConditionalNavigationManager {
-  _conditionToResolveCondition: LiteralMap<string, ResolveCondition<*>>
+  _conditionToResolveCondition: LiteralMap<string, ResolveCondition<*, any>>
 
   constructor () {
     this._conditionToResolveCondition = {}
   }
 
-  resolveConditions (conditionList: Condition[], navigationAction: NavigationAction): ?ResolveConditionsResult {
+  resolveConditions (conditionList: Condition[], navigationAction: NavigationAction, rootState: *): ?ResolveConditionsResult {
     if (!configManager.config.ignoreConditionalNavigation) {
       log.debug('RESOLVE CONDITIONS', { conditionList, navigationAction })
       for (const condition: Condition of conditionList) {
-        const resolveCondition: ResolveCondition<*> = this._conditionToResolveCondition[condition.key]
+        const resolveCondition: ResolveCondition<*, any> = this._conditionToResolveCondition[condition.key]
         if (resolveCondition) {
-          const newNavigationAction: ?NavigationAction = resolveCondition(condition, navigationAction)
+          const newNavigationAction: ?NavigationAction = resolveCondition(condition, navigationAction, rootState)
           if (newNavigationAction) {
             log.debug('NEW NAVIGATION ACTION', { preview: condition.key, newNavigationAction })
             return {
@@ -53,7 +54,7 @@ class ConditionalNavigationManager {
     }
   }
 
-  registerResolveCondition <CONDITION: Condition> (conditionKey: string, resolveCondition: ResolveCondition<CONDITION>) {
+  registerResolveCondition <CONDITION: Condition, ROOT_STATE_FRAGMENT> (conditionKey: string, resolveCondition: ResolveCondition<CONDITION, ROOT_STATE_FRAGMENT>) {
     this._conditionToResolveCondition[conditionKey] = resolveCondition
     return () => { delete this._conditionToResolveCondition[conditionKey] }
   }
@@ -61,7 +62,7 @@ class ConditionalNavigationManager {
 
 export const conditionalNavigationManager = new ConditionalNavigationManager()
 
-export const registerResolveCondition = <CONDITION: Condition>(
+export const registerResolveCondition = <CONDITION: Condition, ROOT_STATE_FRAGMENT>(
   conditionKey: string,
-  resolveCondition: ResolveCondition<CONDITION>,
+  resolveCondition: ResolveCondition<CONDITION, ROOT_STATE_FRAGMENT>,
 ) => conditionalNavigationManager.registerResolveCondition(conditionKey, resolveCondition)

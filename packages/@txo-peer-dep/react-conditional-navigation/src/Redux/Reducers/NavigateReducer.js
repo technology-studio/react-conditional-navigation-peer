@@ -58,7 +58,7 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
   if (!skipConditionalNavigation) {
     const conditions = extractScreenNavigationConditions(router, state, action, rootState)
     if (conditions) {
-      const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditions, action)
+      const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditions, action, rootState)
       log.debug('N: RESOLVE CONDITIONS RESULT', { conditions, resolveConditionsResult, action })
       if (resolveConditionsResult && state) {
         const interceptedState = addConditionalNavigationToState(
