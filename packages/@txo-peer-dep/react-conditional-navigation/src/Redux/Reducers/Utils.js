@@ -80,7 +80,6 @@ export const addIsInitialToStateRoutes = (
   const currentRouteIndex = _currentRouteIndex || 0
   const isInitial = typeof _isInitial === 'boolean' ? _isInitial : null
 
-  // NOTE: no change is possible - empty array or all routes checked
   if (routes.length === 0 || routes.length === currentRouteIndex) {
     return routes
   }
@@ -140,7 +139,6 @@ export const addIsInitialToStateRoutes = (
     return addIsInitialToStateRoutes(editedRoutes, currentRouteIndex + 1, shouldAddIsInitial)
   }
 
-  // NOTE: no change
   return addIsInitialToStateRoutes(routes, currentRouteIndex + 1, isInitial)
 }
 
