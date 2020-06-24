@@ -6,6 +6,7 @@
  * @flow
  */
 
+import { configManager } from './Config'
 import { navigationManager } from './Api/NavigationManager'
 import type { NavigationProps } from './Screens/Types'
 import { PropTypes as navigationPropTypes, navigationParams } from './Screens'
@@ -23,7 +24,11 @@ import {
   types as navigationTypes,
 } from './Redux/Types/NavigationReduxTypes'
 import { creators as navigationActionCreators } from './Redux/NavigationRedux'
-import type { Condition } from './Model/Types'
+import type {
+  Condition,
+  NavigatorType,
+} from './Model/Types'
+import { navigatorTypes } from './Model/Types'
 import {
   combineReducers,
   createNavigationMiddleware,
@@ -44,6 +49,7 @@ import {
 export {
   combineReducers,
   conditionalNavigationManager,
+  configManager,
   connectConditionalNavigation,
   createNavigationMiddleware,
   createNavigationReducer,
@@ -52,6 +58,7 @@ export {
   navigationParams,
   navigationPropTypes,
   navigationTypes,
+  navigatorTypes,
   registerResolveCondition,
 }
 
@@ -69,6 +76,7 @@ export type {
   NavigationSetParamsAction,
   NavigationState,
   NavigationValidateConditionsAction,
+  NavigatorType,
   ResolveCondition,
   RootStateFragment,
 }
