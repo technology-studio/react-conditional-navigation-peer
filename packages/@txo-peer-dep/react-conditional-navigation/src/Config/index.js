@@ -7,11 +7,16 @@
  */
 
 import { ConfigManager } from '@txo/config-manager'
+import type { LiteralMap } from '@txo/flow'
+
+import type { NavigatorType } from '../Model/Types'
 
 export type Config = {
   ignoreConditionalNavigation: boolean,
+  routeNameToNavigatorTypeMap: LiteralMap<string, NavigatorType>,
 }
 
 export const configManager: ConfigManager<Config> = new ConfigManager({
   ignoreConditionalNavigation: false,
+  routeNameToNavigatorTypeMap: {},
 })

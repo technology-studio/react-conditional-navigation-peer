@@ -13,7 +13,9 @@ import {
 } from 'react-navigation'
 import { Log } from '@txo/log'
 
+import { configManager } from '../../Config'
 import type { Condition } from '../../Model/Types'
+import { navigatorTypes } from '../../Model/Types'
 
 import { type ConditionalNavigationState } from '../Types/NavigationReduxTypes'
 
@@ -68,4 +70,41 @@ export const addConditionalNavigationToState = <STATE: NavigationState>(
       : route,
     ),
   }
+}
+
+export const injectIsInitial = (route: NavigationState, isInitial: boolean = false) => {
+  const { routes, routeName, key } = route
+  const { routeNameToNavigatorTypeMap } = configManager.config
+  if (routes) {
+    let modified = false
+    const containsSplashScreen = routes[0].routeName === 'SPLASH_SCREEN'
+    const nextRoutes = routes.reduce((nextRoutes, subRoute, subIndex) => {
+      console.log(routeNameToNavigatorTypeMap[routeName])
+      switch (routeNameToNavigatorTypeMap[routeName || key]) {
+        case navigatorTypes.STACK:
+          isInitial = subIndex === (containsSplashScreen ? 1 : 0)
+          break
+      }
+      const nextSubRoute = injectIsInitial(subRoute, isInitial)
+      if (nextSubRoute !== subRoute) {
+        modified = true
+      }
+      nextRoutes.push(nextSubRoute)
+      return nextRoutes
+    }, [])
+    if ((route.isInitial || false) !== isInitial || modified) {
+      return {
+        ...route,
+        ...(isInitial ? { isInitial: true } : {}),
+        routes: modified ? nextRoutes : routes,
+      }
+    }
+  }
+  if ((route.isInitial || false) !== isInitial) {
+    return {
+      ...route,
+      ...(isInitial ? { isInitial: true } : {}),
+    }
+  }
+  return route
 }

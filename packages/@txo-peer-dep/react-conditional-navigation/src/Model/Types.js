@@ -15,3 +15,10 @@ export type RootStateFragment = { navigation: NavigationState }
 export type Condition = {
   key: string,
 }
+
+export const navigatorTypes = {
+  STACK: 'STACK',
+  TAB: 'TAB',
+}
+
+export type NavigatorType = $Values<typeof navigatorTypes>

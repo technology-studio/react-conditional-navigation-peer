@@ -27,6 +27,7 @@ import { creators } from '../Creators'
 import {
   extractScreenNavigationConditions,
   addConditionalNavigationToState,
+  injectIsInitial,
 } from './Utils'
 
 const log = new Log('txo.react-conditional-navigation.Redux.Reducers.navigateReducer')
@@ -64,7 +65,8 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
         const interceptedState = addConditionalNavigationToState(
           state, resolveConditionsResult.conditionalNavigationState,
         )
-        return parentReducer(interceptedState, (resolveConditionsResult.navigationAction: NavigationAction), rootState)
+        const newState = parentReducer(interceptedState, (resolveConditionsResult.navigationAction: NavigationAction), rootState)
+        return injectIsInitial(newState)
       }
     }
   }
@@ -72,7 +74,7 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
   if (params && params.reset) {
     log.debug('NAVIGATE WITH RESET')
     const { reset, ...paramsWithoutReset } = params
-    return parentReducer(state, stackActions.reset({
+    const newState = parentReducer(state, stackActions.reset({
       key: null,
       index: 0,
       actions: [
@@ -82,6 +84,7 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
         }),
       ],
     }), rootState)
+    return injectIsInitial(newState)
   }
 
   const interceptedState = flow && state
@@ -94,5 +97,5 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
     : state
 
   const newState = router.getStateForAction((translatePushAction(action): any), interceptedState)
-  return newState || state
+  return injectIsInitial(newState || state)
 }
