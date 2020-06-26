@@ -12,11 +12,9 @@ import {
   type NavigationRouter,
 } from 'react-navigation'
 import { Log } from '@txo/log'
-import update from 'immutability-helper'
 
 import { configManager } from '../../Config'
 import type { Condition } from '../../Model/Types'
-import { navigatorTypes } from '../../Model/Types'
 
 import { type ConditionalNavigationState } from '../Types/NavigationReduxTypes'
 
@@ -73,199 +71,39 @@ export const addConditionalNavigationToState = <STATE: NavigationState>(
   }
 }
 
-export const addIsInitialToStateRoutes = (
-  routes: Object[],
-  // _currentRouteIndex?: number,
-  // _isInitial?: ?boolean,
-) => {
-  // TODO: remove old implementation
-  // const currentRouteIndex = _currentRouteIndex || 0
-  // const isInitial = typeof _isInitial === 'boolean' ? _isInitial : null
-
-  // if (routes.length === 0 || routes.length === currentRouteIndex) {
-  //   return routes
-  // }
-
-  const SPLASH_SCREEN = 'SPLASH_SCREEN'
-  // const route = routes[currentRouteIndex]
-  // const { routeName } = route
+export const injectIsInitial = (route: NavigationState, isInitial: boolean = false) => {
+  const { routes, routeName, key } = route
   const { routeNameToNavigatorTypeMap } = configManager.config
-
-  // const shouldAddIsInitial = isInitial === null
-  // const isInitialAttribute = shouldAddIsInitial
-  //   ? { isInitial: true }
-  //   : {}
-
-  // TODO: finish implementation
-  // TODO: add checks to avoid unnecessary initializations of new objects
-  // TODO: add return with the result
-
-  routes.reduce((
-    {
-      routesWithIsInitial,
-      isInitial,
-    },
-    currentRoute,
-    currentIndex,
-  ) => {
-    const { routeName } = currentRoute
-    const shouldAddIsInitial = isInitial === null
-    const isInitialAttribute = shouldAddIsInitial
-      ? { isInitial: true }
-      : {}
-
-    if (routeName === SPLASH_SCREEN) {
+  if (routes) {
+    let modified = false
+    const containsSplashScreen = routes[0].routeName === 'SPLASH_SCREEN'
+    const nextRoutes = routes.reduce((nextRoutes, subRoute, subIndex) => {
+      console.log(routeNameToNavigatorTypeMap[routeName])
+      switch (routeNameToNavigatorTypeMap[routeName || key]) {
+        case 'STACK':
+          isInitial = subIndex === (containsSplashScreen ? 1 : 0)
+          break
+      }
+      const nextSubRoute = injectIsInitial(subRoute, isInitial)
+      if (nextSubRoute !== subRoute) {
+        modified = true
+      }
+      nextRoutes.push(nextSubRoute)
+      return nextRoutes
+    }, [])
+    if ((route.isInitial || false) !== isInitial || modified) {
       return {
-        routesWithIsInitial,
-        isInitial: null,
+        ...route,
+        ...(isInitial ? { isInitial: true } : {}),
+        routes: modified ? nextRoutes : routes,
       }
     }
-    if (routeNameToNavigatorTypeMap[routeName] === navigatorTypes.TAB) {
-      const editedRoutes = update(routesWithIsInitial, {
-        $splice: [[
-          currentIndex,
-          1,
-          {
-            ...currentRoute,
-            routes: currentRoute.routes.map(tabRoute => ({
-              ...tabRoute,
-              ...isInitialAttribute,
-              ...(tabRoute.routes
-                ? { routes: addIsInitialToStateRoutes(tabRoute.routes) }
-                : {}
-              ),
-            })),
-            ...isInitialAttribute,
-          },
-        ]],
-      })
-      return {
-        routesWithIsInitial: editedRoutes,
-        isInitial,
-      }
-    }
-    if (routeNameToNavigatorTypeMap[routeName] === navigatorTypes.STACK) {
-      const editedRoutes = update(routesWithIsInitial, {
-        $splice: [[
-          currentIndex,
-          1,
-          {
-            ...currentRoute,
-            routes: addIsInitialToStateRoutes(currentRoute.routes),
-            ...isInitialAttribute,
-          },
-        ]],
-      })
-      return {
-        routesWithIsInitial: editedRoutes,
-        isInitial,
-      }
-    }
-    if (shouldAddIsInitial) {
-      const editedRoutes = update(routesWithIsInitial, {
-        $splice: [[
-          currentIndex,
-          1,
-          {
-            ...currentRoute,
-            ...isInitialAttribute,
-          },
-        ]],
-      })
-      return {
-        routesWithIsInitial: editedRoutes,
-        isInitial: true,
-      }
-    }
-    if (!shouldAddIsInitial) {
-      return {
-        routesWithIsInitial,
-        isInitial: false,
-      }
-    }
-    // if (currentRoute.routes) {
-    //   return {
-    //     routesWithIsInitial: addIsInitialToStateRoutes(currentRoute.routes),
-    //     isInitial,
-    //   }
-    // }
-    // if (routeNameToNavigatorTypeMap[routeName] === navigatorTypes.TAB) {
-    //   const editedTabRoutes = currentRoute.routes.map(tabRoute => ({
-    //     ...tabRoute,
-    //     isInitial: true,
-    //   }))
-    //   return {
-
-    //   }
-    // }
-
+  }
+  if ((route.isInitial || false) !== isInitial) {
     return {
-      routesWithIsInitial,
-      isInitial,
+      ...route,
+      ...(isInitial ? { isInitial: true } : {}),
     }
-  }, { routesWithIsInitial: routes, isInitial: null })
-
-  // TODO: remove old implementation
-
-  // if (routeName === SPLASH_SCREEN) {
-  //   return addIsInitialToStateRoutes(routes, currentRouteIndex + 1, null)
-  // }
-  // if (routeNameToNavigatorTypeMap[routeName] === navigatorTypes.TAB) {
-  //   const editedRoutes = routes.map((route, index) => {
-  //     if (index !== currentRouteIndex) {
-  //       return route
-  //     }
-  //     return {
-  //       ...route,
-  //       routes: route.routes.map(tabRoute => ({
-  //         ...tabRoute,
-  //         isInitial: true,
-  //       })),
-  //       ...isInitialAttribute,
-  //     }
-  //   })
-  //   return addIsInitialToStateRoutes(editedRoutes, currentRouteIndex + 1, shouldAddIsInitial)
-  // }
-  // if (routeNameToNavigatorTypeMap[routeName] === navigatorTypes.STACK) {
-  //   const editedRoutes = routes.map((route, index) => {
-  //     if (index !== currentRouteIndex) {
-  //       return route
-  //     }
-  //     return {
-  //       ...route,
-  //       routes: addIsInitialToStateRoutes(route.routes, undefined, shouldAddIsInitial),
-  //       ...isInitialAttribute,
-  //     }
-  //   })
-  //   return addIsInitialToStateRoutes(editedRoutes, currentRouteIndex + 1, shouldAddIsInitial)
-  // }
-  // if (shouldAddIsInitial) {
-  //   const editedRoutes = routes.map((route, index) => {
-  //     if (index !== currentRouteIndex) {
-  //       return route
-  //     }
-  //     return {
-  //       ...route,
-  //       ...isInitialAttribute,
-  //     }
-  //   })
-  //   return addIsInitialToStateRoutes(editedRoutes, currentRouteIndex + 1, shouldAddIsInitial)
-  // }
-
-  // return addIsInitialToStateRoutes(routes, currentRouteIndex + 1, isInitial)
-}
-
-export const addIsInitialToState = <STATE: NavigationState>(
-  state: ?STATE,
-): ?STATE => {
-  const { routes } = state || {}
-
-  const editedRoutes = state && routes && addIsInitialToStateRoutes(routes)
-  log.debug('addIsInitialToState', { state, routes, editedRoutes, isEqual: routes === editedRoutes })
-  return state && editedRoutes && editedRoutes !== routes
-    ? {
-      ...state,
-      routes: editedRoutes,
-    }
-    : state
+  }
+  return route
 }

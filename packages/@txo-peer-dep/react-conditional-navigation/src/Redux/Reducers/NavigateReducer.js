@@ -27,7 +27,7 @@ import { creators } from '../Creators'
 import {
   extractScreenNavigationConditions,
   addConditionalNavigationToState,
-  addIsInitialToState,
+  injectIsInitial,
 } from './Utils'
 
 const log = new Log('txo.react-conditional-navigation.Redux.Reducers.navigateReducer')
@@ -66,7 +66,7 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
           state, resolveConditionsResult.conditionalNavigationState,
         )
         const newState = parentReducer(interceptedState, (resolveConditionsResult.navigationAction: NavigationAction), rootState)
-        return addIsInitialToState(newState)
+        return injectIsInitial(newState)
       }
     }
   }
@@ -84,7 +84,7 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
         }),
       ],
     }), rootState)
-    return addIsInitialToState(newState)
+    return injectIsInitial(newState)
   }
 
   const interceptedState = flow && state
@@ -97,5 +97,5 @@ export const navigateReducer = <STATE: NavigationState, ROOT_STATE>(
     : state
 
   const newState = router.getStateForAction((translatePushAction(action): any), interceptedState)
-  return addIsInitialToState(newState || state)
+  return injectIsInitial(newState || state)
 }
