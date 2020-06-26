@@ -15,6 +15,7 @@ import { Log } from '@txo/log'
 
 import { configManager } from '../../Config'
 import type { Condition } from '../../Model/Types'
+import { navigatorTypes } from '../../Model/Types'
 
 import { type ConditionalNavigationState } from '../Types/NavigationReduxTypes'
 
@@ -80,7 +81,7 @@ export const injectIsInitial = (route: NavigationState, isInitial: boolean = fal
     const nextRoutes = routes.reduce((nextRoutes, subRoute, subIndex) => {
       console.log(routeNameToNavigatorTypeMap[routeName])
       switch (routeNameToNavigatorTypeMap[routeName || key]) {
-        case 'STACK':
+        case navigatorTypes.STACK:
           isInitial = subIndex === (containsSplashScreen ? 1 : 0)
           break
       }
