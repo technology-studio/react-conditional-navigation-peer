@@ -15,7 +15,6 @@ export const isInitialNavigationOptions = <OPTIONS: Object>(navigationOptions: N
     }
     default: return {
       ...navigationOptions,
-      ...params,
       gesturesEnabled: !params.navigation.state.isInitial,
     }
   }
