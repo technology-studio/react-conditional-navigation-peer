@@ -8,6 +8,7 @@
 
 import { configManager } from './Config'
 import { navigationManager } from './Api/NavigationManager'
+import { isInitialNavigationOptions } from './Api/NavigationOptionsHelper'
 import type { NavigationProps } from './Screens/Types'
 import { PropTypes as navigationPropTypes, navigationParams } from './Screens'
 import {
@@ -53,6 +54,7 @@ export {
   connectConditionalNavigation,
   createNavigationMiddleware,
   createNavigationReducer,
+  isInitialNavigationOptions,
   navigationActionCreators,
   navigationManager,
   navigationParams,
