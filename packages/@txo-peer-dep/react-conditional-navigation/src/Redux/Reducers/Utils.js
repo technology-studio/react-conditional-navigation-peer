@@ -79,7 +79,6 @@ export const injectIsInitial = (route: NavigationState, isInitial: boolean = fal
     let modified = false
     const containsSplashScreen = routes[0].routeName === 'SPLASH_SCREEN'
     const nextRoutes = routes.reduce((nextRoutes, subRoute, subIndex) => {
-      console.log(routeNameToNavigatorTypeMap[routeName])
       switch (routeNameToNavigatorTypeMap[routeName || key]) {
         case navigatorTypes.STACK:
           isInitial = subIndex === (containsSplashScreen ? 1 : 0)
