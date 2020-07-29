@@ -1,6 +1,6 @@
 {
   "name": "@txo-peer-dep/react-conditional-navigation",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "Technology Studio - React conditional navigation",
   "main": "lib/index.js",
   "typings": "index.d.ts",
