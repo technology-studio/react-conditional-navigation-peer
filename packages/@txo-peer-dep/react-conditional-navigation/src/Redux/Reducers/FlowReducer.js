@@ -50,7 +50,11 @@ export const abstractFlowRedurerFactory = <STATE: NavigationState, ROOT_STATE>(
     while (getStateCurrentRouteKey(previousState) !== getStateCurrentRouteKey(currentState)) {
       log.debug(logPrefix + ': STATE ITERATION', { previousState, currentState })
       const conditionalNavigation: ?ConditionalNavigationState = getConditionalNavigation(currentState)
-      if (currentState && conditionalNavigation) {
+      const flowConditionKey = action?.flowConditionKey || null
+      const isFlowConditionKeyEqualOrMissing = flowConditionKey
+        ? flowConditionKey === conditionalNavigation?.condition.key
+        : true
+      if (currentState && conditionalNavigation && isFlowConditionKeyEqualOrMissing) {
         log.debug(logPrefix + ': DETECTED CONDITIONAL NAVIGATION', { currentState, conditionalNavigation })
         const { index, routes } = currentState
         const newState: STATE = {

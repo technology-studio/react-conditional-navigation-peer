@@ -109,6 +109,9 @@ const finishFlowAndContinueCreator = createActionCreator(
     if (payload && payload.params) {
       action.params = payload.params
     }
+    if (payload && payload.flowConditionKey) {
+      action.flowConditionKey = payload.flowConditionKey
+    }
     return action
   },
 )
