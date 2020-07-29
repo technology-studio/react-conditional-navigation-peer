@@ -61,12 +61,14 @@ export type NavigationNavigateAction = {|
 
 export type NavigationCancelFlowAction = {|
   +type: typeof types.FINISH_FLOW_AND_CONTINUE,
+  +flowConditionKey?: string,
   +promiseCallbacks?: PromiseCallbacks,
 |}
 
 export type NavigationFinishFlowAndContinueAction = {|
   +type: typeof types.FINISH_FLOW_AND_CONTINUE,
   +params?: NavigationParams,
+  +flowConditionKey?: string,
   +promiseCallbacks?: PromiseCallbacks,
 |}
 
@@ -115,6 +117,10 @@ export type BackPayload = {
   +backToRouteName?: boolean,
 }
 
+export type CancelFlowPayload = {
+  +flowConditionKey?: string,
+}
+
 type InitPayload = {
   +params?: NavigationParams,
 }
@@ -130,6 +136,7 @@ export type NavigatePayload = {
 
 export type FinishFlowAndContinuePayload = {
   +params?: ?NavigationParams,
+  +flowConditionKey?: string,
 }
 
 export type ResetPayload = {
