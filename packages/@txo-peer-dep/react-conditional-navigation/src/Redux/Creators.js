@@ -9,6 +9,7 @@
 import {
   types,
   type BackPayload,
+  type CancelFlowPayload,
   type NavigatePayload,
   type SetParamsPayload,
   type FinishFlowAndContinuePayload,
@@ -92,9 +93,12 @@ const navigateCreator = createActionCreator(
 
 const cancelFlowCreator = createActionCreator(
   types.CANCEL_FLOW,
-  (): NavigationCancelFlowAction => {
-    const action: NavigationCancelFlowAction = {
+  (payload?: CancelFlowPayload): NavigationCancelFlowAction => {
+    const action: $Exact<{ ...NavigationCancelFlowAction }> = {
       type: types.CANCEL_FLOW,
+    }
+    if (payload && payload.flowConditionKey) {
+      action.flowConditionKey = payload.flowConditionKey
     }
     return action
   },
