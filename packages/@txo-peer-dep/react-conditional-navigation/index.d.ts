@@ -5,6 +5,8 @@
 **/
 
 import type {
+  Action,
+  Dispatch,
   Middleware,
   Reducer,
 } from 'redux'
@@ -12,14 +14,14 @@ import * as ReactNavigation from 'react-navigation'
 import { ConfigManager } from '@txo/config-manager'
 import { ValuesType } from 'utility-types'
 
-declare module '@txo-peer-dep/react-conditional-navigation' {
-  declare module 'react-redux' {
-    interface DefaultRootState {
-      navigation: ReactNavigation.NavigationState | null,
-    }
+declare module 'react-redux' {
+  interface DefaultRootState {
+    navigation: ReactNavigation.NavigationState | null,
   }
+}
 
-  const createNavigationReducer: <STATE extends ReactNavigation.NavigationState>(router: NavigationRouter<STATE, unknown>) => Reducer<?STATE, unknown>
+declare module '@txo-peer-dep/react-conditional-navigation' {
+  const createNavigationReducer: <STATE extends ReactNavigation.NavigationState>(router: ReactNavigation.NavigationRouter<STATE, unknown>) => Reducer<STATE | null, Action<any>>
 
   type ResolveCondition<CONDITION extends Condition, ROOT_STATE> = (
     condition: CONDITION,
@@ -34,8 +36,7 @@ declare module '@txo-peer-dep/react-conditional-navigation' {
   const navigationParams = <PARAMS extends Record<string, unknown>>(props: NavigationProps<PARAMS>): PARAMS => props.navigation.state.params || {}
 
   class NavigationManager {
-    _dispatch: ?Dispatch<*>
-    creators = creators
+    _dispatch: Dispatch | null
 
     constructor(): void
 
@@ -111,7 +112,7 @@ declare module '@txo-peer-dep/react-conditional-navigation' {
 
   export type NavigationBackAction = {
     type: typeof types.BACK,
-    key?: ?string,
+    key?: string | null,
     routeName?: string,
     count?: number,
     backToRouteName?: boolean,
@@ -183,7 +184,7 @@ declare module '@txo-peer-dep/react-conditional-navigation' {
   // ##### PAYLOADS #####
 
   export type BackPayload = {
-    key?: ?string,
+    key?: string | null,
     routeName?: string,
     count?: number,
     backToRouteName?: boolean,
@@ -201,19 +202,19 @@ declare module '@txo-peer-dep/react-conditional-navigation' {
     routeName: string,
     flow?: boolean,
     push?: boolean,
-    params?: ?NavigationParams,
-    action?: ?ReactNavigation.NavigationNavigateAction,
+    params?: NavigationParams | null,
+    action?: ReactNavigation.NavigationNavigateAction | null,
     skipConditionalNavigation?: boolean,
   }
 
   export type FinishFlowAndContinuePayload = {
-    params?: ?NavigationParams,
+    params?: NavigationParams | null,
     flowConditionKey?: string,
   }
 
   export type ResetPayload = {
     index: number,
-    key?: ?string,
+    key?: string | null,
     actions: NavigationNavigateAction[],
   }
 
@@ -273,9 +274,9 @@ declare module '@txo-peer-dep/react-conditional-navigation' {
     navigationOptions?: ReactNavigation.NavigationScreenConfig<OPTIONS>
   ) => ReactNavigation.NavigationScreenConfig<OPTIONS>
 
-  const combineReducers: <O extends unknown, A>(
+  const combineReducers: <O extends string | number | symbol, A extends Action<any>>(
     reducers: O,
-    parentStateKeys?: $Keys<O>[]
+    parentStateKeys?: keyof O[]
   ) => Reducer<Record<O, <S>(r: unknown) => S>, A>
 
   const navigatorTypes = {
