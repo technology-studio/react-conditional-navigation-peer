@@ -29,9 +29,9 @@
     "build:watch:flow": "yarn flow-copy-source --verbose -w -i '**/__tests__/**' src lib"
   },
   "dependencies": {
-    "@txo/config-manager": "^2.0.1",
+    "@txo/config-manager": "^3.0.1",
     "@txo/flow": "^2.0.0",
-    "@txo/log": "^1.0.0",
+    "@txo/log": "^2.0.0",
     "immutability-helper": "^3.1.1",
     "prop-types": "^15.7.2",
     "react-navigation-redux-helpers": "^4.0.1"
