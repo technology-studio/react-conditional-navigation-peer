@@ -37,7 +37,7 @@
     "react-navigation-redux-helpers": "^4.0.1"
   },
   "peerDependencies": {
-    "@txo-peer-dep/log": "^3.0.0",
+    "@txo-peer-dep/log": "^4.0.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1"
   }
