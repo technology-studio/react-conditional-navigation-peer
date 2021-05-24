@@ -29,5 +29,7 @@
     "build:watch:flow": "yarn flow-copy-source --verbose -w -i '**/__tests__/**' src lib"
   },
   "dependencies": {},
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@txo-peer-dep/react-conditional-navigation": "^4.0.0"
+  }
 }
