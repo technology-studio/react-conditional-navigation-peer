@@ -48,24 +48,24 @@ declare module '@txo-peer-dep/react-conditional-navigation' {
       type: unknown,
     }>(
       action: ACTION,
-    ): Promise<void>
-    navigate(payload: NavigatePayload): Promise<void>
-    back(payload?: BackPayload): Promise<void>
-    setParams(payload: SetParamsPayload): Promise<void>
-    dispatchNavigationAction(navigationAction: NavigationAction): Promise<void>
-    async all(navigationActionList: NavigationAction[]): Promise<void>
-    async cancelFlow(): Promise<void>
-    async finishFlowAndContinue(payload?: FinishFlowAndContinuePayload): Promise<void>
-    async requireConditions(payload: RequireConditionsPayload): Promise<void>
-    async validateConditions(): Promise<void>
+    ): void
+    navigate(payload: NavigatePayload): void
+    back(payload?: BackPayload): void
+    setParams(payload: SetParamsPayload): void
+    dispatchNavigationAction(navigationAction: NavigationAction): void
+    async all(navigationActionList: NavigationAction[]): void
+    async cancelFlow(): void
+    async finishFlowAndContinue(payload?: FinishFlowAndContinuePayload): void
+    async requireConditions(payload: RequireConditionsPayload): void
+    async validateConditions(): void
     async backAndNavigate(payload: {
       back?: BackPayload,
       navigate: NavigatePayload,
-    }): Promise<void>
+    }): void
     async backAndSetParams(payload: {
       back?: BackPayload,
       setParams: SetParamsPayload,
-    }): Promise<void>
+    }): void
   }
 
   const navigationManager: NavigationManager

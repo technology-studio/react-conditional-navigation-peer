@@ -43,31 +43,27 @@ class NavigationManager {
       +type: *,
     }> (
     action: ACTION,
-  ): Promise<void> {
+    promiseCallbacks?: {resolve: () => void, reject: () => void},
+  ): void {
     const dispatch = this._getDispatch()
-    return new Promise((resolve, reject) => {
-      dispatch({
-        ...action,
-        promiseCallbacks: {
-          reject,
-          resolve,
-        },
-      })
+    dispatch({
+      ...action,
+      promiseCallbacks,
     })
   }
 
   // TODO: promise not implemented yet
-  navigate (payload: NavigatePayload): Promise<void> {
+  navigate (payload: NavigatePayload): void {
     return this.dispatchAction(creators.navigate(payload))
   }
 
   // TODO: promise not implemented yet
-  back (payload?: BackPayload): Promise<void> {
+  back (payload?: BackPayload): void {
     return this.dispatchAction(creators.back(payload))
   }
 
   // TODO: promise not implemented yet
-  setParams (payload: SetParamsPayload): Promise<void> {
+  setParams (payload: SetParamsPayload): void {
     return this.dispatchAction(creators.setParams(payload))
   }
 
@@ -78,27 +74,27 @@ class NavigationManager {
 
   // TODO: promise not implemented yet
   // TODO: in case of conditional navigation sequence should be postponed currently given sequence is executed as autonome actions
-  all (navigationActionList: NavigationAction[]): Promise<void> {
+  all (navigationActionList: NavigationAction[]): void {
     return this.dispatchAction(creators.all(navigationActionList))
   }
 
   // TODO: promise not implemented yet
-  cancelFlow (): Promise<void> {
+  cancelFlow (): void {
     return this.dispatchAction(creators.cancelFlow())
   }
 
   // TODO: promise not implemented yet
-  finishFlowAndContinue (payload?: FinishFlowAndContinuePayload): Promise<void> {
+  finishFlowAndContinue (payload?: FinishFlowAndContinuePayload): void {
     return this.dispatchAction(creators.finishFlowAndContinue(payload))
   }
 
   // TODO: promise not implemented yet
-  requireConditions (payload: RequireConditionsPayload): Promise<void> {
+  requireConditions (payload: RequireConditionsPayload): void {
     return this.dispatchAction(creators.requireConditions(payload))
   }
 
   // TODO: promise not implemented yet
-  validateConditions (): Promise<void> {
+  validateConditions (): void {
     return this.dispatchAction(creators.validateConditions())
   }
 
@@ -107,7 +103,7 @@ class NavigationManager {
   backAndNavigate (payload: {
     back?: BackPayload,
     navigate: NavigatePayload,
-  }): Promise<void> {
+  }): void {
     return this.all([
       creators.back(payload.back),
       creators.navigate(payload.navigate),
@@ -118,7 +114,7 @@ class NavigationManager {
   backAndSetParams (payload: {
     back?: BackPayload,
     setParams: SetParamsPayload,
-  }): Promise<void> {
+  }): void {
     return this.all([
       creators.back(payload.back),
       creators.setParams(payload.setParams),
