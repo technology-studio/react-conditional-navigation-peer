@@ -30,6 +30,6 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@txo-peer-dep/react-conditional-navigation": "^4.0.0"
+    "@txo-peer-dep/react-conditional-navigation": "^5.0.0"
   }
 }
