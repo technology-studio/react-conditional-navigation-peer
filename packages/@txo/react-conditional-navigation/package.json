@@ -1,6 +1,6 @@
 {
   "name": "@txo/react-conditional-navigation",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Technology Studio - React conditional navigation",
   "main": "lib/index.js",
   "typings": "index.d.ts",
