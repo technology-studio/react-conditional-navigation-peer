@@ -29,7 +29,7 @@ type Props = {
 
 export const connectConditionalNavigation = (navigator: NavigationContainer): ConnectedComponent<
 React.ComponentType<Props>,
-Record<string, never>
+Record<string, unknown>
 > => {
   const ReduxNavigator = createReduxContainer(navigator, SUBSCRIBERS_KEY)
 
