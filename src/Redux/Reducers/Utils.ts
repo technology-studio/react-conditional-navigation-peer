@@ -111,29 +111,5 @@ export const injectIsInitial = <STATE extends NavigationState | NavigationRoute>
       }
     }
   }
-  // if ((route.isInitial ?? false) !== isInitial) {
-  //   return {
-  //     ...route,
-  //     ...(isInitial ? { isInitial: true } : {}),
-  //   }
-  // }
   return route
 }
-
-/*
-State - routes: ano, routeName: nie
-Route - routes: nie, routeName: ano
-StateRoute - routes: ano, routeName: ano
-
-root state: State {
-  routes: [
-    splash: Route
-    mainNavigator: Route
-      routes: [
-        a: Route
-        b: Route
-        c: Route
-      ]
-  ]
-}
-*/
