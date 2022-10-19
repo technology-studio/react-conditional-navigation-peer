@@ -58,7 +58,7 @@ ACTION extends Action = AnyAction,
   }
   const finalReducerKeys = Object.keys(finalReducers) as (keyof Partial<O>)[]
 
-  const result = (state: STATE | undefined, action: ACTION): STATE | undefined => {
+  return (state: STATE | undefined, action: ACTION): STATE | undefined => {
     let hasChanged = false
     const nextState = {} as unknown as STATE
     for (let i = 0; i < finalReducerKeys.length; i++) {
@@ -77,5 +77,4 @@ ACTION extends Action = AnyAction,
     }
     return hasChanged ? nextState : state
   }
-  return result
 }
