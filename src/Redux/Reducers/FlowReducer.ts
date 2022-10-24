@@ -11,7 +11,7 @@ import type {
   NavigationRouter,
   NavigationState,
 } from 'react-navigation'
-import type { DefaultRootState } from 'react-redux'
+import type { DefaultRootState } from '@txo-peer-dep/redux'
 import { Log } from '@txo/log'
 
 import type {

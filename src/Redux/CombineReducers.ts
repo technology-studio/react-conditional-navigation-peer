@@ -7,7 +7,7 @@
  */
 
 import { Log } from '@txo/log'
-import type { DefaultRootState } from 'react-redux'
+import type { DefaultRootState } from '@txo-peer-dep/redux'
 import type {
   Action,
   AnyAction,

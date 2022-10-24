@@ -11,7 +11,7 @@ import {
   type NavigationState,
   type NavigationAction as RNNavigationAction,
 } from 'react-navigation'
-import type { DefaultRootState } from 'react-redux'
+import type { DefaultRootState } from '@txo-peer-dep/redux'
 import { Log } from '@txo/log'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
 import type {

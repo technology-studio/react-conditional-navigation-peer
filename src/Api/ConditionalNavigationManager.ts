@@ -6,7 +6,7 @@
 **/
 
 import { Log } from '@txo/log'
-import type { DefaultRootState } from 'react-redux'
+import type { DefaultRootState } from '@txo-peer-dep/redux'
 
 import { configManager } from '../Config'
 import type { Condition } from '../Model/Types'

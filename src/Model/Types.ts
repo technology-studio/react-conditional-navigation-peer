@@ -6,7 +6,7 @@
 **/
 
 import type { NavigationState } from 'react-navigation'
-import type { DefaultRootState } from 'react-redux'
+import type { DefaultRootState } from '@txo-peer-dep/redux'
 import type { ValuesType } from 'utility-types'
 
 import type { ConditionalNavigationState } from '../Redux/Types/NavigationReduxTypes'
@@ -15,7 +15,7 @@ export type NavigationReducer<S, A, RS> = (state: S, action: A, rootState: RS) =
 
 export type RootStateFragment = { navigation: NavigationState }
 
-declare module 'react-redux' {
+declare module '@txo-peer-dep/redux/lib/Model/Types' {
   export interface DefaultRootState {
     navigation: NavigationState,
   }
