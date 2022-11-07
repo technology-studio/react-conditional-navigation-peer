@@ -40,18 +40,18 @@
 //   RootStateFragment,
 //   State as NavigationState,
 // } from './Redux/Types'
-// import { connectConditionalNavigation } from './Navigation/RootNavigator'
-// import {
-//   type ResolveCondition,
-//   conditionalNavigationManager,
-//   registerResolveCondition,
-// } from './Api/ConditionalNavigationManager'
+export { navigateActionCreator } from './Navigation/Navigate'
+export { onActionFactory } from './Navigation/OnActionFactory'
+export {
+  type ResolveCondition,
+  conditionalNavigationManager,
+  registerResolveCondition,
+} from './Api/ConditionalNavigationManager'
 
 // export {
 //   combineReducers,
 //   conditionalNavigationManager,
 //   configManager,
-//   connectConditionalNavigation,
 //   createNavigationMiddleware,
 //   createNavigationReducer,
 //   isInitialNavigationOptions,
