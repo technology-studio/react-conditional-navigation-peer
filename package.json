@@ -35,15 +35,16 @@
   },
   "dependencies": {
     "@txo/config-manager": "^3.1.0",
+    "@txo/functional": "^4.5.1",
     "@txo/log": "^2.0.1",
     "immutability-helper": "^3.1.1",
     "react-navigation-redux-helpers": "^4.0.1",
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
+    "@react-navigation/native": "^6.0.13",
     "@txo-peer-dep/log": "^4.0.0",
     "@txo-peer-dep/redux": "^1.0.0",
-    "@react-navigation/native": "^6.0.13",
     "react-native": "*",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0"
