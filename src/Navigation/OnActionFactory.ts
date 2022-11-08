@@ -15,6 +15,10 @@ import type {
   Condition,
 } from '../Model/Types'
 
+import {
+  cancelFlowActionCreator,
+  finishFlowAndContinueActionCreator,
+} from './Flow'
 import { navigateActionCreator } from './Navigate'
 
 const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.onActionFactory')
@@ -40,6 +44,8 @@ export const onActionFactory = (onAction: any) => (attributes: OnActionFactoryAt
   const actionCreatorAttributes: ActionCreatorAttributes = { action, getState, setState, nextOnAction, originalOnAction: onAction, restArgs, screenConditionsMap }
   const actionCreatorMap = {
     NAVIGATE: navigateActionCreator,
+    CANCEL_FLOW: cancelFlowActionCreator,
+    FINISH_FLOW_AND_CONTINUE: finishFlowAndContinueActionCreator,
   }
 
   const actionCreator = actionCreatorMap[type]
