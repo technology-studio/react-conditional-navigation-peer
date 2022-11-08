@@ -43,9 +43,9 @@ export const onActionFactory = (onAction: any) => (attributes: OnActionFactoryAt
   log.debug('N: onAction', { screenConditionsMap, action })
   const actionCreatorAttributes: ActionCreatorAttributes = { action, getState, setState, nextOnAction, originalOnAction: onAction, restArgs, screenConditionsMap }
   const actionCreatorMap = {
-    NAVIGATE: navigateActionCreator,
     CANCEL_FLOW: cancelFlowActionCreator,
     FINISH_FLOW_AND_CONTINUE: finishFlowAndContinueActionCreator,
+    NAVIGATE: navigateActionCreator,
   }
 
   const actionCreator = actionCreatorMap[type]
