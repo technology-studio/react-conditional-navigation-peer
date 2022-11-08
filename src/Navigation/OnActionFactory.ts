@@ -49,9 +49,5 @@ export const onActionFactory = (onAction: any) => (attributes: OnActionFactoryAt
   }
 
   const actionCreator = actionCreatorMap[type]
-
-  const result = actionCreator ? actionCreator(actionCreatorAttributes) : onAction(...args)
-  log.debug('N: onAction - action creator result', { result })
-
-  return result
+  return actionCreator ? actionCreator(actionCreatorAttributes) : onAction(...args)
 }
