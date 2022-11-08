@@ -22,25 +22,25 @@ const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.Flow')
 const findLatestConditionNavigationState = (
   rootStackNavigatorRoutes: NavigationState['routes'],
 ): ConditionalNavigationState<DefaultRootState['navigation']> | undefined => rootStackNavigatorRoutes.reduce<{
-  latestConditionalNavigationState: ConditionalNavigationState<DefaultRootState['navigation']> | undefined,
+  latestConditionalNavigation: ConditionalNavigationState<DefaultRootState['navigation']> | undefined,
   latestLogicalTimestamp: number,
-}>(({ latestConditionalNavigationState, latestLogicalTimestamp }, route) => {
+}>(({ latestConditionalNavigation, latestLogicalTimestamp }, route) => {
   const { conditionalNavigation } = route
   if (conditionalNavigation) {
-    const { logicalTimestamp } = conditionalNavigation.conditionalNavigationState
-    log.debug('findLatest', { conditionalNavigation, logicalTimestamp, latestLogicalTimestamp, latestConditionalNavigationState })
+    const { logicalTimestamp } = conditionalNavigation
+    log.debug('findLatest', { conditionalNavigation, logicalTimestamp, latestLogicalTimestamp, latestConditionalNavigation })
     if (logicalTimestamp > latestLogicalTimestamp) {
       return {
-        latestConditionalNavigationState: conditionalNavigation.conditionalNavigationState,
+        latestConditionalNavigation: conditionalNavigation,
         latestLogicalTimestamp: logicalTimestamp,
       }
     }
   }
   return {
-    latestConditionalNavigationState,
+    latestConditionalNavigation,
     latestLogicalTimestamp,
   }
-}, { latestConditionalNavigationState: undefined, latestLogicalTimestamp: 0 }).latestConditionalNavigationState
+}, { latestConditionalNavigation: undefined, latestLogicalTimestamp: 0 }).latestConditionalNavigation
 
 export const abstractFlowActionCreatorFactory = (type: 'CANCEL_FLOW' | 'FINISH_FLOW_AND_CONTINUE') => ({
   getState,
@@ -51,11 +51,11 @@ export const abstractFlowActionCreatorFactory = (type: 'CANCEL_FLOW' | 'FINISH_F
   const state = getState()
   if (state?.routes) {
     const { previousState, postponedAction } = findLatestConditionNavigationState(state.routes) ?? {}
-    log.debug('N: onAction - abstractFlowActionCreatorFactory', { type, previousState, state })
+    log.debug(`${type}: onAction - abstractFlowActionCreatorFactory`, { type, previousState, state })
     if (previousState) {
       setState(previousState)
-      return type === 'FINISH_FLOW_AND_CONTINUE' && postponedAction
-        ? nextOnAction(postponedAction, ...restArgs)
+      return type === 'FINISH_FLOW_AND_CONTINUE'
+        ? postponedAction ? nextOnAction(postponedAction, ...restArgs) : true
         : true
     }
   }
