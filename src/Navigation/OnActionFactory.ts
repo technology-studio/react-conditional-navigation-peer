@@ -15,6 +15,7 @@ import type {
   Condition,
 } from '../Model/Types'
 
+import { backActionCreator } from './Back'
 import {
   cancelFlowActionCreator,
   finishFlowAndContinueActionCreator,
@@ -45,6 +46,7 @@ export const onActionFactory = (onAction: any) => (attributes: OnActionFactoryAt
   const actionCreatorMap = {
     CANCEL_FLOW: cancelFlowActionCreator,
     FINISH_FLOW_AND_CONTINUE: finishFlowAndContinueActionCreator,
+    GO_BACK: backActionCreator,
     NAVIGATE: navigateActionCreator,
   }
 

@@ -84,3 +84,8 @@ export const getActiveScreenPath = (
   }
   return undefined
 }
+
+export const getStateNearestRouteKeyByRouteName = (state: NavigationState | null | undefined, name: string): string | undefined => {
+  const route = state?.routes?.find(route => route.name === name)
+  return route ? route.key : undefined
+}
