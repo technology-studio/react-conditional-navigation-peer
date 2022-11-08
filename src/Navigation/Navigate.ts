@@ -4,18 +4,16 @@
  * @Copyright: Technology Studio
 **/
 
-import type {
-  NavigationAction,
-  NavigationState,
-  PartialState,
-} from '@react-navigation/native'
 import { last } from '@txo/functional'
 import { Log } from '@txo/log'
 
 import {
   conditionalNavigationManager,
 } from '../Api/ConditionalNavigationManager'
-import type { Condition } from '../Model/Types'
+import type {
+  ActionCreatorAttributes,
+  Condition,
+} from '../Model/Types'
 import {
   getActiveLeafNavigationNode,
   getActiveScreenPath,
@@ -35,15 +33,7 @@ export const navigateActionCreator = ({
   restArgs,
   screenConditionsMap,
   setState,
-}: {
-  action: NavigationAction,
-  getState: () => NavigationState | PartialState<NavigationState> | undefined,
-  nextOnAction: (...args: any) => boolean,
-  originalOnAction: (...args: any) => boolean,
-  restArgs: any[],
-  screenConditionsMap: Record<string, Condition[]>,
-  setState: (state: NavigationState | PartialState<NavigationState> | undefined) => void,
-}): boolean => {
+}: ActionCreatorAttributes): boolean => {
   const {
     flow,
     payload,
@@ -59,7 +49,7 @@ export const navigateActionCreator = ({
   ]
   const finalScreenName = last(desiredScreenPath)
 
-  log.debug('default navigate', { action, state, currentActiveScreenPath })
+  log.debug('NAVIGATE', { action, state, currentActiveScreenPath })
   if (!skipConditionalNavigation) {
     const conditions = desiredScreenPath?.reduce<Condition[] | undefined>((conditions, screenName) => {
       const screenConditions = screenConditionsMap[screenName]
@@ -67,15 +57,13 @@ export const navigateActionCreator = ({
         ? screenConditions
         : conditions
     }, undefined)
-    log.debug('default navigate - conditions', { conditions, currentActiveScreenPath, screenConditionsMap })
     if (conditions && state) {
       const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditions, action, state)
       log.debug('N: RESOLVE CONDITIONS RESULT', { conditions, resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition })
       if (resolveConditionsResult && state) {
         const activeLeafNavigationNode = getActiveLeafNavigationNode(state)
-        activeLeafNavigationNode.conditionalNavigation = resolveConditionsResult
+        activeLeafNavigationNode.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
         // TODO: figure out how to inject isInitial to state
-        log.debug('N: RESOLVE CONDITIONS RESULT - SET STATE', { state, resolveConditionsResult })
         return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
       }
     }
