@@ -10,7 +10,10 @@ import type { NavigationState } from '@react-navigation/routers'
 import type {
   ActionCreatorAttributes,
 } from '../Model/Types'
-import { getStateNearestRouteKeyByRouteName } from '../Api/NavigationUtils'
+import {
+  getActiveLeafNavigationNode,
+  getStateNearestRouteKeyByRouteName,
+} from '../Api/NavigationUtils'
 
 const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.Back')
 
@@ -65,15 +68,16 @@ export const backActionCreator = ({
     routeName,
   } = action
   log.debug('B', { action })
-  const state = getState()
+  const stateDeepCopy = JSON.parse(JSON.stringify(getState()))
   if (backToRouteName) {
     const newKey = routeName
-      ? getStateNearestRouteKeyByRouteName(state, routeName)
+      ? getStateNearestRouteKeyByRouteName(stateDeepCopy, routeName)
       : key
 
     if (newKey) {
-      const newState = getBackedState(state, undefined, newKey)
-      setState({ ...newState })
+      const newState = getBackedState(stateDeepCopy, undefined, newKey)
+      log.debug('B: new state', { newState })
+      setState(newState)
       return true
     }
     return false
@@ -81,8 +85,10 @@ export const backActionCreator = ({
   if (count === 1 || !count) {
     return originalOnAction(action, ...restArgs)
   }
-  const backedState = getBackedState(state, count)
-  log.debug(`B: COUNT: ${String(count)}`, { backedState })
-  setState({ ...backedState })
+  const backedState = getBackedState(stateDeepCopy, count)
+  const activeLeafNavigationNode = getActiveLeafNavigationNode(backedState)
+  activeLeafNavigationNode.conditionalNavigation = undefined
+  log.debug(`B: count: ${String(count)}`, { backedState })
+  setState(backedState)
   return true
 }
