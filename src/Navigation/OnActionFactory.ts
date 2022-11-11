@@ -19,7 +19,7 @@ import {
 } from './Flow'
 import { navigateActionCreator } from './Navigate'
 
-const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.onActionFactory')
+const log = new Log('txo.react-conditional-navigation.Navigation.onActionFactory')
 
 export const onActionFactory = (onAction: OnAction) => (attributes: OnActionFactoryAttributes, ...args: Parameters<OnAction>): boolean => {
   const {

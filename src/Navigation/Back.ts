@@ -15,7 +15,7 @@ import {
   getStateNearestRouteKeyByRouteName,
 } from '../Api/NavigationUtils'
 
-const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.Back')
+const log = new Log('txo.react-conditional-navigation.Navigation.Back')
 
 const getBackedState = (
   state: NavigationState | undefined,

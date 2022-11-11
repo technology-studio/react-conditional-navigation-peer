@@ -17,7 +17,7 @@ import type {
   ConditionalNavigationState,
 } from '../Redux/Types/NavigationReduxTypes'
 
-const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.Flow')
+const log = new Log('txo.react-conditional-navigation.Navigation.Flow')
 
 const findLatestConditionNavigationState = (
   rootStackNavigatorRoutes: NavigationState['routes'],

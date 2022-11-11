@@ -21,7 +21,7 @@ import {
   getNavigationPathFromAction,
 } from '../Api/NavigationUtils'
 
-const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.Navigate')
+const log = new Log('txo.react-conditional-navigation.Navigation.Navigate')
 
 const VOID = 'void'
 
