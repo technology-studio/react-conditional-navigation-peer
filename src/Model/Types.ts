@@ -7,13 +7,18 @@
 
 import type {
   NavigationAction,
-  PartialState,
 } from '@react-navigation/native'
+import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
 import type { DefaultRootState } from '@txo-peer-dep/redux'
 import type { ValuesType } from 'utility-types'
 
-import type { ConditionalNavigationState } from '../Redux/Types/NavigationReduxTypes'
+export type ConditionalNavigationState<STATE> = {
+  condition: Condition,
+  logicalTimestamp: number,
+  postponedAction: NavigationAction | null,
+  previousState: STATE,
+}
 
 export type NavigationReducer<S, A, RS> = (state: S, action: A, rootState: RS) => S
 
@@ -47,12 +52,23 @@ export type RouterOptions<ROOT_STATE = DefaultRootState> = {
   conditions: Condition[] | ((rootState: ROOT_STATE) => Condition[]),
 }
 
+export type UseOnActionOptions = Parameters<typeof UseOnActionType>[0]
+export type OnAction = ReturnType<typeof UseOnActionType>
+type RestArgs = Parameters<OnAction> extends [Parameters<OnAction>[0], ...infer R] ? R : never
+
 export type ActionCreatorAttributes = {
   action: NavigationAction,
-  getState: () => NavigationState | PartialState<NavigationState> | undefined,
-  nextOnAction: (...args: any) => boolean,
-  originalOnAction: (...args: any) => boolean,
-  restArgs: any[],
+  getState: UseOnActionOptions['getState'],
+  nextOnAction: OnAction,
+  originalOnAction: OnAction,
+  restArgs: RestArgs,
   screenConditionsMap: Record<string, Condition[]>,
-  setState: (state: NavigationState | PartialState<NavigationState> | undefined) => void,
+  setState: UseOnActionOptions['setState'],
+}
+
+export type OnActionFactoryAttributes = {
+  getState: UseOnActionOptions['getState'],
+  nextOnAction: OnAction,
+  screenConditionsMap: Record<string, Condition[]>,
+  setState: UseOnActionOptions['setState'],
 }
