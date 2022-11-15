@@ -6,24 +6,26 @@
 **/
 
 import { Log } from '@txo/log'
-import type { DefaultRootState } from '@txo-peer-dep/redux'
-
-import { configManager } from '../Config'
-import type { Condition } from '../Model/Types'
 import type {
   NavigationAction,
+  NavigationState,
+} from '@react-navigation/native'
+
+import { configManager } from '../Config'
+import type {
+  Condition,
   ResolveConditionsResult,
-} from '../Redux/Types/NavigationReduxTypes'
+} from '../Model/Types'
 
 const log = new Log('txo.react-conditional-navigation.Api.ConditionalNavigationManager')
 
-export type ResolveCondition<CONDITION extends Condition, ROOT_STATE extends DefaultRootState['navigation']> = (
+export type ResolveCondition<CONDITION extends Condition, ROOT_STATE extends NavigationState> = (
   condition: CONDITION,
   navigationAction: NavigationAction,
   rootState: ROOT_STATE,
 ) => NavigationAction | undefined
 
-class ConditionalNavigationManager<CONDITION extends Condition, ROOT_STATE extends DefaultRootState['navigation']> {
+class ConditionalNavigationManager<CONDITION extends Condition, ROOT_STATE extends NavigationState> {
   _conditionToResolveCondition: Record<string, ResolveCondition<CONDITION, ROOT_STATE>>
   _logicalClock = 0
 
@@ -31,7 +33,7 @@ class ConditionalNavigationManager<CONDITION extends Condition, ROOT_STATE exten
     this._conditionToResolveCondition = {}
   }
 
-  resolveConditions (conditionList: CONDITION[], navigationAction: NavigationAction, rootState: ROOT_STATE): ResolveConditionsResult<ROOT_STATE> | undefined {
+  resolveConditions (conditionList: CONDITION[], navigationAction: NavigationAction, rootState: ROOT_STATE): ResolveConditionsResult | undefined {
     if (!configManager.config.ignoreConditionalNavigation) {
       log.debug('RESOLVE CONDITIONS', { conditionList, navigationAction })
       for (const condition of conditionList) {
@@ -44,7 +46,7 @@ class ConditionalNavigationManager<CONDITION extends Condition, ROOT_STATE exten
               navigationAction: {
                 // NOTE: spread previous navigation action to keep react-navigation specific properties (e.g. source, target)
                 ...navigationAction,
-                params: undefined,
+                payload: undefined,
                 ...newNavigationAction,
               },
               conditionalNavigationState: {
@@ -71,9 +73,9 @@ class ConditionalNavigationManager<CONDITION extends Condition, ROOT_STATE exten
   }
 }
 
-export const conditionalNavigationManager = new ConditionalNavigationManager<Condition, DefaultRootState['navigation']>()
+export const conditionalNavigationManager = new ConditionalNavigationManager<Condition, NavigationState>()
 
 export const registerResolveCondition = (
   conditionKey: string,
-  resolveCondition: ResolveCondition<Condition, DefaultRootState['navigation']>,
+  resolveCondition: ResolveCondition<Condition, NavigationState>,
 ): () => void => conditionalNavigationManager.registerResolveCondition(conditionKey, resolveCondition)

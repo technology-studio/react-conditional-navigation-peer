@@ -8,7 +8,7 @@ import { Log } from '@txo/log'
 import type { NavigationState } from '@react-navigation/routers'
 
 import type {
-  ActionCreatorAttributes,
+  OnActionAttributes,
 } from '../Model/Types'
 import {
   getActiveLeafNavigationNode,
@@ -60,7 +60,7 @@ export const backActionCreator = ({
   originalOnAction,
   restArgs,
   setState,
-}: ActionCreatorAttributes): boolean => {
+}: OnActionAttributes): boolean => {
   const {
     backToRouteName,
     count,

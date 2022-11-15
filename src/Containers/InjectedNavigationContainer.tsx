@@ -13,11 +13,11 @@ import {
 } from '@react-navigation/native'
 import { useFlipper } from '@react-navigation/devtools'
 
-// import {
-//   onActionFactory,
-// } from '../Navigation/OnActionFactory'
+import {
+  onActionFactory,
+} from '../Navigation/OnActionFactory'
 
-// import { registerOnActionFactory } from './ReactNavigationInjection'
+import { registerOnActionFactory } from './ReactNavigationInjection'
 
 type Props = {
   children: React.ReactNode,
@@ -28,7 +28,7 @@ export const InjectedNavigationContainer = ({ children }: Props): JSX.Element =>
   useFlipper(navigationRef)
 
   useEffect(() => {
-    // registerOnActionFactory(onActionFactory)
+    registerOnActionFactory(onActionFactory)
   }, [])
 
   return (
