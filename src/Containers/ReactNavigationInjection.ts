@@ -25,7 +25,7 @@ useOnActionObject.default = function useOnAction (options: UseOnActionOptions): 
   const { getState, setState } = options ?? {}
   const nextOnAction: typeof onAction = useCallback((...args: Parameters<OnAction>) => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const screenConditionsMap: Record<string, Condition[]> = require('../../../Navigation/ScreenList').screenConditionsMap
+    const screenConditionsMap: Record<string, Condition[]> = require('../Api/Config').config.screenConditionsMap
 
     if (onActionFactory) {
       return onActionFactory(onAction)({
