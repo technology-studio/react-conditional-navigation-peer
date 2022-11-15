@@ -11,7 +11,7 @@ import {
   conditionalNavigationManager,
 } from '../Api/ConditionalNavigationManager'
 import type {
-  ActionCreatorAttributes,
+  OnActionAttributes,
   Condition,
 } from '../Model/Types'
 import {
@@ -21,7 +21,7 @@ import {
   getNavigationPathFromAction,
 } from '../Api/NavigationUtils'
 
-const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.Navigate')
+const log = new Log('txo.react-conditional-navigation.Navigation.Navigate')
 
 const VOID = 'void'
 
@@ -33,7 +33,7 @@ export const navigateActionCreator = ({
   restArgs,
   screenConditionsMap,
   setState,
-}: ActionCreatorAttributes): boolean => {
+}: OnActionAttributes): boolean => {
   const {
     flow,
     payload,

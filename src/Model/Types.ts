@@ -7,27 +7,24 @@
 
 import type {
   NavigationAction,
+  Router,
+  RouterConfigOptions,
 } from '@react-navigation/native'
 import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
 import type { DefaultRootState } from '@txo-peer-dep/redux'
 import type { ValuesType } from 'utility-types'
 
-export type ConditionalNavigationState<STATE> = {
+export type ConditionalNavigationState = {
   condition: Condition,
   logicalTimestamp: number,
   postponedAction: NavigationAction | null,
-  previousState: STATE,
+  previousState: NavigationState,
 }
 
-export type NavigationReducer<S, A, RS> = (state: S, action: A, rootState: RS) => S
-
-export type RootStateFragment = { navigation: NavigationState }
-
-declare module '@txo-peer-dep/redux/lib/Model/Types' {
-  export interface DefaultRootState {
-    navigation: NavigationState,
-  }
+export type ResolveConditionsResult = {
+  navigationAction: NavigationAction,
+  conditionalNavigationState: ConditionalNavigationState,
 }
 
 export type Condition = {
@@ -44,7 +41,7 @@ export type NavigatorType = ValuesType<typeof navigatorTypes>
 declare module '@react-navigation/routers' {
   export interface NavigationLeafRoute {
     isInitial?: boolean,
-    conditionalNavigation?: ConditionalNavigationState<DefaultRootState['navigation']>,
+    conditionalNavigation?: ConditionalNavigationState,
   }
 }
 
@@ -56,12 +53,14 @@ export type UseOnActionOptions = Parameters<typeof UseOnActionType>[0]
 export type OnAction = ReturnType<typeof UseOnActionType>
 type RestArgs = Parameters<OnAction> extends [Parameters<OnAction>[0], ...infer R] ? R : never
 
-export type ActionCreatorAttributes = {
+export type OnActionAttributes = {
   action: NavigationAction,
   getState: UseOnActionOptions['getState'],
   nextOnAction: OnAction,
   originalOnAction: OnAction,
   restArgs: RestArgs,
+  router: Router<NavigationState, NavigationAction>,
+  routerConfigOptions: RouterConfigOptions,
   screenConditionsMap: Record<string, Condition[]>,
   setState: UseOnActionOptions['setState'],
 }
@@ -69,6 +68,8 @@ export type ActionCreatorAttributes = {
 export type OnActionFactoryAttributes = {
   getState: UseOnActionOptions['getState'],
   nextOnAction: OnAction,
+  router: Router<NavigationState, NavigationAction>,
+  routerConfigOptions: RouterConfigOptions,
   screenConditionsMap: Record<string, Condition[]>,
   setState: UseOnActionOptions['setState'],
 }
