@@ -18,6 +18,8 @@ import {
   finishFlowAndContinueActionCreator,
 } from './Flow'
 import { navigateActionCreator } from './Navigate'
+import { requireConditionsActionCreator } from './RequireConditions'
+import { validateConditionsActionCreator } from './ValidateConditions'
 
 const log = new Log('txo.react-conditional-navigation.Navigation.onActionFactory')
 
@@ -40,6 +42,8 @@ export const onActionFactory = (onAction: OnAction) => (attributes: OnActionFact
     FINISH_FLOW_AND_CONTINUE: finishFlowAndContinueActionCreator,
     GO_BACK: backActionCreator,
     NAVIGATE: navigateActionCreator,
+    REQUIRE_CONDITIONS: requireConditionsActionCreator,
+    VALIDATE_CONDITIONS: validateConditionsActionCreator,
   }
 
   const actionCreator = type in actionCreatorMap ? actionCreatorMap[type as keyof typeof actionCreatorMap] : undefined
