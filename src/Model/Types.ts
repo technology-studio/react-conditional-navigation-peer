@@ -12,7 +12,6 @@ import type {
 } from '@react-navigation/native'
 import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
-import type { DefaultRootState } from '@txo-peer-dep/redux'
 import type { ValuesType } from 'utility-types'
 
 export type ConditionalNavigationState = {
@@ -43,10 +42,6 @@ declare module '@react-navigation/routers' {
     isInitial?: boolean,
     conditionalNavigation?: ConditionalNavigationState,
   }
-}
-
-export type RouterOptions<ROOT_STATE = DefaultRootState> = {
-  conditions: Condition[] | ((rootState: ROOT_STATE) => Condition[]),
 }
 
 export type UseOnActionOptions = Parameters<typeof UseOnActionType>[0]
