@@ -5,7 +5,7 @@
  * @Copyright: Technology Studio
  */
 
-export { configManager } from './Api/Config'
+export { configManager } from './Config'
 export { registerOnActionFactory } from './Containers/ReactNavigationInjection'
 export { InjectedNavigationContainer } from './Containers/InjectedNavigationContainer'
 export * from './Model/Types'
