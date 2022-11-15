@@ -37,7 +37,6 @@
     "@txo/config-manager": "^3.1.0",
     "@txo/functional": "^4.5.1",
     "@txo/log": "^2.0.1",
-    "immutability-helper": "^3.1.1",
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
