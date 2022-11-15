@@ -46,7 +46,7 @@ export type UseOnActionOptions = Parameters<typeof UseOnActionType>[0]
 export type OnAction = ReturnType<typeof UseOnActionType>
 type RestArgs = Parameters<OnAction> extends [Parameters<OnAction>[0], ...infer R] ? R : never
 
-export type ActionCreatorAttributes = {
+export type OnActionAttributes = {
   action: NavigationAction,
   getState: UseOnActionOptions['getState'],
   nextOnAction: OnAction,
