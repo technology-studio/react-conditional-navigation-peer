@@ -11,13 +11,11 @@ import type { DefaultRootState } from '@txo-peer-dep/redux'
 import { Log } from '@txo/log'
 
 import type {
-  ActionCreatorAttributes,
-} from '../Model/Types'
-import type {
+  OnActionAttributes,
   ConditionalNavigationState,
-} from '../Redux/Types/NavigationReduxTypes'
+} from '../Model/Types'
 
-const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.Flow')
+const log = new Log('txo.react-conditional-navigation.Navigation.Flow')
 
 const findLatestConditionNavigationState = (
   rootStackNavigatorRoutes: NavigationState['routes'],
@@ -47,7 +45,7 @@ export const abstractFlowActionCreatorFactory = (type: 'CANCEL_FLOW' | 'FINISH_F
   nextOnAction,
   restArgs,
   setState,
-}: ActionCreatorAttributes): boolean => {
+}: OnActionAttributes): boolean => {
   const state = getState()
   if (state?.routes) {
     const { previousState, postponedAction } = findLatestConditionNavigationState(state.routes) ?? {}
