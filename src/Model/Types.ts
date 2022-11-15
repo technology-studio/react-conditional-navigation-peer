@@ -22,6 +22,11 @@ export type ConditionalNavigationState = {
   previousState: NavigationState,
 }
 
+export type ResolveConditionsResult = {
+  navigationAction: NavigationAction,
+  conditionalNavigationState: ConditionalNavigationState,
+}
+
 export type Condition = {
   key: string,
 }

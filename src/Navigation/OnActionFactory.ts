@@ -7,7 +7,7 @@
 import { Log } from '@txo/log'
 
 import type {
-  ActionCreatorAttributes,
+  OnActionAttributes,
   OnAction,
   OnActionFactoryAttributes,
 } from '../Model/Types'
@@ -19,7 +19,7 @@ import type {
 // } from './Flow'
 import { navigateActionCreator } from './Navigate'
 
-const log = new Log('app.Modules.ReactConditionalNavigation.Navigation.onActionFactory')
+const log = new Log('txo.react-conditional-navigation.Navigation.onActionFactory')
 
 export const onActionFactory = (onAction: OnAction) => (attributes: OnActionFactoryAttributes, ...args: Parameters<OnAction>): boolean => {
   const {
@@ -27,12 +27,14 @@ export const onActionFactory = (onAction: OnAction) => (attributes: OnActionFact
     screenConditionsMap,
     getState,
     setState,
+    router,
+    routerConfigOptions,
   } = attributes
   const [action, ...restArgs] = args
 
   const { type } = action ?? {}
   log.debug('N: onAction', { screenConditionsMap, action })
-  const actionCreatorAttributes: ActionCreatorAttributes = { action, getState, setState, nextOnAction, originalOnAction: onAction, restArgs, screenConditionsMap }
+  const actionCreatorAttributes: OnActionAttributes = { action, getState, setState, nextOnAction, originalOnAction: onAction, restArgs, router, routerConfigOptions, screenConditionsMap }
   const actionCreatorMap = {
     // CANCEL_FLOW: cancelFlowActionCreator,
     // FINISH_FLOW_AND_CONTINUE: finishFlowAndContinueActionCreator,
