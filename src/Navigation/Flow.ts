@@ -7,7 +7,6 @@
 import type {
   NavigationState,
 } from '@react-navigation/native'
-import type { DefaultRootState } from '@txo-peer-dep/redux'
 import { Log } from '@txo/log'
 
 import type {
@@ -19,8 +18,8 @@ const log = new Log('txo.react-conditional-navigation.Navigation.Flow')
 
 const findLatestConditionNavigationState = (
   rootStackNavigatorRoutes: NavigationState['routes'],
-): ConditionalNavigationState<DefaultRootState['navigation']> | undefined => rootStackNavigatorRoutes.reduce<{
-  latestConditionalNavigation: ConditionalNavigationState<DefaultRootState['navigation']> | undefined,
+): ConditionalNavigationState | undefined => rootStackNavigatorRoutes.reduce<{
+  latestConditionalNavigation: ConditionalNavigationState | undefined,
   latestLogicalTimestamp: number,
 }>(({ latestConditionalNavigation, latestLogicalTimestamp }, route) => {
   const { conditionalNavigation } = route
