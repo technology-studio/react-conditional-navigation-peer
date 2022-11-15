@@ -7,6 +7,8 @@
 
 import type {
   NavigationAction,
+  Router,
+  RouterConfigOptions,
 } from '@react-navigation/native'
 import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
@@ -52,6 +54,8 @@ export type OnActionAttributes = {
   nextOnAction: OnAction,
   originalOnAction: OnAction,
   restArgs: RestArgs,
+  router: Router<NavigationState, NavigationAction>,
+  routerConfigOptions: RouterConfigOptions,
   screenConditionsMap: Record<string, Condition[]>,
   setState: UseOnActionOptions['setState'],
 }
@@ -59,6 +63,8 @@ export type OnActionAttributes = {
 export type OnActionFactoryAttributes = {
   getState: UseOnActionOptions['getState'],
   nextOnAction: OnAction,
+  router: Router<NavigationState, NavigationAction>,
+  routerConfigOptions: RouterConfigOptions,
   screenConditionsMap: Record<string, Condition[]>,
   setState: UseOnActionOptions['setState'],
 }

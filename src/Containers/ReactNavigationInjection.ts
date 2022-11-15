@@ -22,10 +22,10 @@ export const registerOnActionFactory = (_onActionFactory: typeof onActionFactory
 
 useOnActionObject.default = function useOnAction (options: UseOnActionOptions): OnAction {
   const onAction = originalUseOnAction(options)
-  const { getState, setState } = options ?? {}
+  const { getState, setState, router, routerConfigOptions } = options ?? {}
   const nextOnAction: typeof onAction = useCallback((...args: Parameters<OnAction>) => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const screenConditionsMap: Record<string, Condition[]> = require('../Api/Config').config.screenConditionsMap
+    const screenConditionsMap: Record<string, Condition[]> = require('../Api/Config').configManager.config.screenConditionsMap
 
     if (onActionFactory) {
       return onActionFactory(onAction)({
@@ -33,11 +33,13 @@ useOnActionObject.default = function useOnAction (options: UseOnActionOptions): 
         nextOnAction,
         screenConditionsMap,
         setState,
+        router,
+        routerConfigOptions,
       }, ...args)
     }
 
     return onAction(...args)
-  }, [getState, onAction, setState])
+  }, [getState, onAction, router, routerConfigOptions, setState])
 
   return nextOnAction
 }
