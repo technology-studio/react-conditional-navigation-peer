@@ -11,7 +11,7 @@ import {
   conditionalNavigationManager,
 } from '../Api/ConditionalNavigationManager'
 import type {
-  ActionCreatorAttributes,
+  OnActionAttributes,
   Condition,
 } from '../Model/Types'
 import {
@@ -33,7 +33,7 @@ export const navigateActionCreator = ({
   restArgs,
   screenConditionsMap,
   setState,
-}: ActionCreatorAttributes): boolean => {
+}: OnActionAttributes): boolean => {
   const {
     flow,
     payload,
