@@ -13,21 +13,11 @@ import type { NavigationState } from '@react-navigation/routers'
 import type { DefaultRootState } from '@txo-peer-dep/redux'
 import type { ValuesType } from 'utility-types'
 
-export type ConditionalNavigationState<STATE> = {
+export type ConditionalNavigationState = {
   condition: Condition,
   logicalTimestamp: number,
   postponedAction: NavigationAction | null,
-  previousState: STATE,
-}
-
-export type NavigationReducer<S, A, RS> = (state: S, action: A, rootState: RS) => S
-
-export type RootStateFragment = { navigation: NavigationState }
-
-declare module '@txo-peer-dep/redux/lib/Model/Types' {
-  export interface DefaultRootState {
-    navigation: NavigationState,
-  }
+  previousState: NavigationState,
 }
 
 export type Condition = {
@@ -44,7 +34,7 @@ export type NavigatorType = ValuesType<typeof navigatorTypes>
 declare module '@react-navigation/routers' {
   export interface NavigationLeafRoute {
     isInitial?: boolean,
-    conditionalNavigation?: ConditionalNavigationState<DefaultRootState['navigation']>,
+    conditionalNavigation?: ConditionalNavigationState,
   }
 }
 
