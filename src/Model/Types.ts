@@ -12,7 +12,6 @@ import type {
 } from '@react-navigation/native'
 import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
-import type { ValuesType } from 'utility-types'
 
 export type ConditionalNavigationState = {
   condition: Condition,
@@ -25,12 +24,10 @@ export type Condition = {
   key: string,
 }
 
-export const navigatorTypes = {
-  STACK: 'STACK',
-  TAB: 'TAB',
+export enum NavigatorType {
+  STACK = 'STACK',
+  TAB = 'TAB',
 }
-
-export type NavigatorType = ValuesType<typeof navigatorTypes>
 
 declare module '@react-navigation/routers' {
   export interface NavigationLeafRoute {
