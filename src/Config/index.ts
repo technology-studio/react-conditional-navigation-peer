@@ -20,6 +20,4 @@ export type Config = {
 
 export const configManager = new ConfigManager<Config>({
   ignoreConditionalNavigation: false,
-  routeNameToNavigatorTypeMap: {},
-  screenConditionsMap: {},
 })

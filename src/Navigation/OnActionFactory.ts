@@ -14,10 +14,10 @@ import type {
 
 // import { backActionCreator } from './Back'
 import {
-  cancelFlowActionCreator,
-  finishFlowAndContinueActionCreator,
+  onCancelFlowAction,
+  onFinishFlowAndContinueAction,
 } from './Flow'
-import { navigateActionCreator } from './Navigate'
+import { onNavigateAction } from './Navigate'
 
 const log = new Log('txo.react-conditional-navigation.Navigation.onActionFactory')
 
@@ -36,10 +36,10 @@ export const onActionFactory = (originalOnAction: OnAction) => (attributes: OnAc
   log.debug('N: onAction', { screenConditionsMap, action })
   const onActionAttributes: OnActionAttributes = { action, getState, setState, nextOnAction, originalOnAction, restArgs, router, routerConfigOptions, screenConditionsMap }
   const onActionMap = {
-    CANCEL_FLOW: cancelFlowActionCreator,
-    FINISH_FLOW_AND_CONTINUE: finishFlowAndContinueActionCreator,
+    CANCEL_FLOW: onCancelFlowAction,
+    FINISH_FLOW_AND_CONTINUE: onFinishFlowAndContinueAction,
     // GO_BACK: backActionCreator,
-    NAVIGATE: navigateActionCreator,
+    NAVIGATE: onNavigateAction,
   }
 
   const onAction = type in onActionMap ? onActionMap[type as keyof typeof onActionMap] : undefined
