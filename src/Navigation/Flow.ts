@@ -39,7 +39,7 @@ const findLatestConditionNavigationState = (
   }
 }, { latestConditionalNavigation: undefined, latestLogicalTimestamp: 0 }).latestConditionalNavigation
 
-export const abstractFlowActionCreatorFactory = (type: 'CANCEL_FLOW' | 'FINISH_FLOW_AND_CONTINUE') => ({
+export const abstractOnFlowActionFactory = (type: 'CANCEL_FLOW' | 'FINISH_FLOW_AND_CONTINUE') => ({
   getState,
   nextOnAction,
   restArgs,
@@ -48,7 +48,7 @@ export const abstractFlowActionCreatorFactory = (type: 'CANCEL_FLOW' | 'FINISH_F
   const state = getState()
   if (state?.routes) {
     const { previousState, postponedAction } = findLatestConditionNavigationState(state.routes) ?? {}
-    log.debug(`${type}: onAction - abstractFlowActionCreatorFactory`, { type, previousState, state })
+    log.debug(`${type}: onAction - abstractOnFlowActionFactory`, { type, previousState, state })
     if (previousState) {
       setState(previousState)
       return type === 'FINISH_FLOW_AND_CONTINUE'
@@ -59,6 +59,6 @@ export const abstractFlowActionCreatorFactory = (type: 'CANCEL_FLOW' | 'FINISH_F
   return false
 }
 
-export const cancelFlowActionCreator = abstractFlowActionCreatorFactory('CANCEL_FLOW')
+export const onCancelFlowAction = abstractOnFlowActionFactory('CANCEL_FLOW')
 
-export const finishFlowAndContinueActionCreator = abstractFlowActionCreatorFactory('FINISH_FLOW_AND_CONTINUE')
+export const onFinishFlowAndContinueAction = abstractOnFlowActionFactory('FINISH_FLOW_AND_CONTINUE')

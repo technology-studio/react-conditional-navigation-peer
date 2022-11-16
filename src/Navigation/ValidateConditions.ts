@@ -15,7 +15,7 @@ import type {
   Condition,
 } from '../Model/Types'
 
-export const validateConditionsActionCreator = ({
+export const onValidateConditionsAction = ({
   action,
   getState,
   originalOnAction,

@@ -25,7 +25,7 @@ const log = new Log('txo.react-conditional-navigation.Navigation.Navigate')
 
 const VOID = 'void'
 
-export const navigateActionCreator = ({
+export const onNavigateAction = ({
   action,
   getState,
   nextOnAction,

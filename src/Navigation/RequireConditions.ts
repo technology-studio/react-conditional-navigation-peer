@@ -8,7 +8,7 @@ import { conditionalNavigationManager } from '../Api/ConditionalNavigationManage
 import { getActiveLeafNavigationNode } from '../Api/NavigationUtils'
 import type { OnActionAttributes } from '../Model/Types'
 
-export const requireConditionsActionCreator = ({
+export const onRequireConditionsAction = ({
   action,
   getState,
   nextOnAction,

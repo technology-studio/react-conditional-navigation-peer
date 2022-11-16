@@ -54,7 +54,7 @@ const getBackedState = (
   )
 }
 
-export const backActionCreator = ({
+export const onBackAction = ({
   action,
   getState,
   originalOnAction,
