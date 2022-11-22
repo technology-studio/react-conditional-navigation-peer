@@ -5,7 +5,10 @@
 **/
 
 import { Log } from '@txo/log'
-import type { NavigationState } from '@react-navigation/routers'
+import type {
+  NavigationState,
+  Route,
+} from '@react-navigation/native'
 
 import type {
   OnActionAttributes,
@@ -25,8 +28,8 @@ const getBackedState = (
   if (numberOfBacks === 0 || !state) {
     return state
   }
-  let activeRoute = state.routes[state.index]
-  if (activeRoute.type === 'tab') {
+  let activeRoute = state.routes[state.index] as NavigationState | Route<string>
+  if ('type' in activeRoute && activeRoute.type === 'tab') {
     activeRoute.index = activeRoute.index > 0 ? activeRoute.index - 1 : 0
   }
   if (!activeRoute.type) {
