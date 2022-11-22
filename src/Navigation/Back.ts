@@ -62,11 +62,14 @@ export const onBackAction = ({
   setState,
 }: OnActionAttributes): boolean => {
   const {
+    payload,
+  } = action
+  const {
     backToRouteName,
     count,
     key,
     routeName,
-  } = action
+  } = payload?.params ?? {}
   log.debug('B', { action })
   const stateDeepCopy = JSON.parse(JSON.stringify(getState()))
   if (backToRouteName) {
