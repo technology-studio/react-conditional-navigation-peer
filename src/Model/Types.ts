@@ -16,9 +16,15 @@ import type { NavigationState } from '@react-navigation/routers'
 export type NavigationAction = RNNavigationAction & {
   payload?: Record<string, unknown> & {
     params?: {
+      // navigate
       flow?: boolean,
       reset?: boolean,
       skipConditionalNavigation?: boolean,
+      // back
+      backToRouteName?: boolean,
+      count?: number,
+      key?: string,
+      routeName?: string,
     },
   },
 }
