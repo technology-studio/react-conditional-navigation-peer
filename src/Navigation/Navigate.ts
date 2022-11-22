@@ -35,11 +35,13 @@ export const onNavigateAction = ({
   setState,
 }: OnActionAttributes): boolean => {
   const {
-    flow,
     payload,
+  } = action
+  const {
+    flow,
     reset,
     skipConditionalNavigation,
-  } = action
+  } = payload?.params ?? {}
   const state = getState()
 
   const currentActiveScreenPath = getActiveScreenPath(state)
@@ -63,7 +65,6 @@ export const onNavigateAction = ({
       if (resolveConditionsResult && state) {
         const activeLeafNavigationNode = getActiveLeafNavigationNode(state)
         activeLeafNavigationNode.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
-        // TODO: figure out how to inject isInitial to state
         return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
       }
     }
@@ -79,7 +80,6 @@ export const onNavigateAction = ({
       ],
     }
     setState(newState)
-    // TODO: figure out how to inject isInitial to state
     return true
   }
 
@@ -100,6 +100,5 @@ export const onNavigateAction = ({
     destinationNode.conditionalNavigation = undefined
   }
 
-  // TODO: figure out how to inject isInitial to state
   return originalOnAction(action, ...restArgs)
 }

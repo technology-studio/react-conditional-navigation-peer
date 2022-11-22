@@ -7,13 +7,13 @@
 
 import { Log } from '@txo/log'
 import type {
-  NavigationAction,
   NavigationState,
 } from '@react-navigation/native'
 
 import { configManager } from '../Config'
 import type {
   Condition,
+  NavigationAction,
   ResolveConditionsResult,
 } from '../Model/Types'
 
