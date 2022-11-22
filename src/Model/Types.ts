@@ -14,6 +14,7 @@ import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useO
 import type { NavigationState } from '@react-navigation/routers'
 
 export type NavigationAction = RNNavigationAction & {
+  conditionList?: Condition[],
   payload?: Record<string, unknown> & {
     params?: {
       // navigate

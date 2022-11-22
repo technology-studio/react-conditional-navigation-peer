@@ -4,9 +4,10 @@
  * @Copyright: Technology Studio
 **/
 
-import type { NavigationAction } from '@react-navigation/native'
-
-import type { Condition } from '../Model/Types'
+import type {
+  Condition,
+  NavigationAction,
+} from '../Model/Types'
 
 export const ConditionalActions = {
   cancelFlow: (): NavigationAction => ({

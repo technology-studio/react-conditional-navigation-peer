@@ -14,7 +14,7 @@ export const onRequireConditionsAction = ({
   nextOnAction,
   restArgs,
 }: OnActionAttributes): boolean => {
-  const { conditionList, promiseCallbacks } = action
+  const { conditionList } = action
   const state = getState()
   if (conditionList) {
     const resolveConditionsResult = conditionalNavigationManager.resolveConditions(conditionList, action, state)
@@ -24,6 +24,5 @@ export const onRequireConditionsAction = ({
       return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
     }
   }
-  promiseCallbacks?.resolve()
   return true
 }
