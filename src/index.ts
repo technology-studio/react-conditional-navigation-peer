@@ -43,7 +43,7 @@ export * from './Model/Types'
 //   RootStateFragment,
 //   State as NavigationState,
 // } from './Redux/Types'
-export { navigateActionCreator } from './Navigation/Navigate'
+export { onNavigateAction } from './Navigation/Navigate'
 export { onActionFactory } from './Navigation/OnActionFactory'
 export {
   type ResolveCondition,
