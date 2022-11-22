@@ -20,14 +20,14 @@ import { configManager } from '../Config'
 const useOnActionObject = require('@react-navigation/core/lib/commonjs/useOnAction')
 const originalUseOnAction = useOnActionObject.default as typeof UseOnActionType
 
-let onActionFactory: ((onAction: ReturnType<typeof UseOnActionType>) => (attributes: OnActionFactoryAttributes, ...args: Parameters<OnAction>) => boolean) | null = null
+let onActionFactory: ((onAction: OnAction) => (attributes: OnActionFactoryAttributes, ...args: Parameters<OnAction>) => boolean) | null = null
 
 export const registerOnActionFactory = (_onActionFactory: typeof onActionFactory): void => {
   onActionFactory = _onActionFactory
 }
 
 useOnActionObject.default = function useOnAction (options: UseOnActionOptions): OnAction {
-  const onAction = originalUseOnAction(options)
+  const onAction = originalUseOnAction(options) as OnAction
   const { getState, setState, router, routerConfigOptions } = options ?? {}
   const nextOnAction: typeof onAction = useCallback((...args: Parameters<OnAction>) => {
     const screenConditionsMap = configManager.config.screenConditionsMap

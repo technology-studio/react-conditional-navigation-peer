@@ -12,11 +12,11 @@ import type {
   Route,
 } from '@react-navigation/native'
 
-export const getActiveLeafNavigationNode = (state: NavigationState): NavigationState => {
+export const getActiveLeafNavigationNode = (state: NavigationState): Route<string> => {
   const { routes, index } = state
-  const currentRoute = routes[index]
-  if (currentRoute.routes) {
-    return getActiveLeafNavigationNode(currentRoute.routes)
+  const currentRoute = routes[index] as NavigationState | Route<string>
+  if ('routes' in currentRoute) {
+    return getActiveLeafNavigationNode(currentRoute)
   }
   return currentRoute
 }
@@ -26,12 +26,14 @@ export const getExistingNavigationNodeByRouteName = (state: NavigationState | Pa
     return undefined
   }
   const { routes, index } = state
-  const currentRoute = typeof index === 'number' ? routes[index] : undefined
-  if (currentRoute?.name === routeName) {
-    return currentRoute
+  const currentRoute = typeof index === 'number' ? routes[index] as NavigationState | Route<string> : undefined
+  if (!currentRoute) {
+    return undefined
   }
-  if (currentRoute?.routes) {
-    return getExistingNavigationNodeByRouteName(currentRoute.routes, routeName)
+  if ('name' in currentRoute && currentRoute.name === routeName) {
+    return currentRoute
+  } else if ('routes' in currentRoute && currentRoute.routes) {
+    return getExistingNavigationNodeByRouteName(currentRoute, routeName)
   }
   return undefined
 }
@@ -64,21 +66,17 @@ export const getNavigationPathFromAction = (action: NavigationAction): string[] 
 }
 
 export const getActiveScreenPath = (
-  state: NavigationState | undefined,
+  state: NavigationState | Route<string> | undefined,
   tempIndex = 0,
 ): string[] | undefined => {
-  if (!state) {
+  if (!state || !('type' in state)) {
     return undefined
   }
   const { routes, index, type } = state
-  if (!index) {
-    return undefined
-  }
   if (type === 'stack' && tempIndex < index) {
     const nextPath = getActiveScreenPath(state, tempIndex + 1)
     return nextPath ? [routes[tempIndex].name, ...nextPath] : [routes[tempIndex].name]
   } else if (type === 'tab' || type === 'stack') {
-    // TODO: resolve typescript issues with routes not containing nested routes
     const nextPath = getActiveScreenPath(routes[index])
     return nextPath ? [routes[index].name, ...nextPath] : [routes[index].name]
   }

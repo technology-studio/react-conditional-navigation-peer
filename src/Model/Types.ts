@@ -6,12 +6,22 @@
 **/
 
 import type {
-  NavigationAction,
+  NavigationAction as RNNavigationAction,
   Router,
   RouterConfigOptions,
 } from '@react-navigation/native'
 import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
+
+export type NavigationAction = RNNavigationAction & {
+  payload?: Record<string, unknown> & {
+    params?: {
+      flow?: boolean,
+      reset?: boolean,
+      skipConditionalNavigation?: boolean,
+    },
+  },
+}
 
 export type ConditionalNavigationState = {
   condition: Condition,
@@ -36,13 +46,14 @@ export enum NavigatorType {
 
 declare module '@react-navigation/routers' {
   export interface NavigationLeafRoute {
-    isInitial?: boolean,
     conditionalNavigation?: ConditionalNavigationState,
   }
 }
 
-export type UseOnActionOptions = Parameters<typeof UseOnActionType>[0]
-export type OnAction = ReturnType<typeof UseOnActionType>
+export type UseOnActionOptions = Parameters<typeof UseOnActionType>[0] & {
+  router: Router<NavigationState, NavigationAction>,
+}
+export type OnAction = (action: NavigationAction, visitedNavigators?: Set<string>) => boolean
 type RestArgs = Parameters<OnAction> extends [Parameters<OnAction>[0], ...infer R] ? R : never
 
 export type OnActionAttributes = {
