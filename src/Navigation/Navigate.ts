@@ -14,9 +14,9 @@ import type {
   OnActionAttributes, ResolveConditionsResult,
 } from '../Model/Types'
 import {
-  getActiveLeafNavigationNode,
-  getExistingNavigationNodeByRouteName,
-  getNavigationPathFromAction,
+  getActiveLeafRoute,
+  getExistingRouteByRouteName,
+  getRoutePathFromAction,
 } from '../Api/NavigationUtils'
 
 const log = new Log('txo.react-conditional-navigation.Navigation.Navigate')
@@ -42,7 +42,7 @@ export const onNavigateAction = ({
   } = payload?.params ?? {}
   const state = getState()
 
-  const nextRoutePath = getNavigationPathFromAction(action) ?? []
+  const nextRoutePath = getRoutePathFromAction(action) ?? []
   const leafRouteName = last(nextRoutePath)
   log.debug('NAVIGATE', { action, state })
   if (!skipConditionalNavigation) {
@@ -50,13 +50,13 @@ export const onNavigateAction = ({
       let resolveConditionsResult: ResolveConditionsResult | undefined
       for (const routeName of nextRoutePath) {
         const screenConditions = screenConditionsMap[routeName]
-        if (screenConditions ? screenConditions.length > 0 : false) {
+        if (screenConditions && screenConditions.length > 0) {
           resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, state)
         }
       }
       log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition })
       if (resolveConditionsResult) {
-        const activeLeafNavigationNode = getActiveLeafNavigationNode(state)
+        const activeLeafNavigationNode = getActiveLeafRoute(state)
         activeLeafNavigationNode.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
         return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
       }
@@ -82,15 +82,15 @@ export const onNavigateAction = ({
       route.conditionalNavigation = {
         condition: { key: VOID },
         postponedAction: null,
-        logicalTimestamp: conditionalNavigationManager.getAndIncrementLogicalClock(),
+        logicalTimestamp: conditionalNavigationManager.tickLogicalClock(),
         previousState: JSON.parse(JSON.stringify(state)),
       }
     }
   }
 
-  const destinationNode = getExistingNavigationNodeByRouteName(state, leafRouteName)
+  const destinationNode = getExistingRouteByRouteName(state, leafRouteName)
   if (destinationNode?.conditionalNavigation) {
-    destinationNode.conditionalNavigation = undefined
+    delete destinationNode.conditionalNavigation
   }
 
   return originalOnAction(action, ...restArgs)
