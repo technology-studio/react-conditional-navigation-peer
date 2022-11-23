@@ -82,3 +82,24 @@ export const getActiveScreenPath = (
   }
   return undefined
 }
+
+export const calculateIsInitial = (state: NavigationState, currentRoute: Route<string>): boolean => {
+  const { routes, type } = state
+  const { name } = currentRoute
+  if (type === 'tab') {
+    return true
+  }
+  if (routes) {
+    const containsSplashScreen = routes[0].name === 'SPLASH_SCREEN'
+    let isInitial = false
+    for (let index = 0; index < routes.length; index++) {
+      const route = routes[index]
+      if (route.name === name) {
+        isInitial = index === (containsSplashScreen ? 1 : 0)
+        break
+      }
+    }
+    return isInitial
+  }
+  return false
+}
