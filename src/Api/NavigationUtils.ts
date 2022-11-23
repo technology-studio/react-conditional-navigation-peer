@@ -65,7 +65,7 @@ export const getNavigationPathFromAction = (action: NavigationAction): string[] 
   return nextScreen ? [name, ...nextScreen] : [name]
 }
 
-export const getActiveScreenPath = (
+export const getActiveRoutePath = (
   state: NavigationState | Route<string> | undefined,
   tempIndex = 0,
 ): string[] | undefined => {
@@ -74,10 +74,10 @@ export const getActiveScreenPath = (
   }
   const { routes, index, type } = state
   if (type === 'stack' && tempIndex < index) {
-    const nextPath = getActiveScreenPath(state, tempIndex + 1)
+    const nextPath = getActiveRoutePath(state, tempIndex + 1)
     return nextPath ? [routes[tempIndex].name, ...nextPath] : [routes[tempIndex].name]
   } else if (type === 'tab' || type === 'stack') {
-    const nextPath = getActiveScreenPath(routes[index])
+    const nextPath = getActiveRoutePath(routes[index])
     return nextPath ? [routes[index].name, ...nextPath] : [routes[index].name]
   }
   return undefined
