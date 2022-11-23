@@ -53,6 +53,7 @@ export {
 export {
   calculateIsInitial,
 } from './Api/NavigationUtils'
+export { useIsInitial } from './Hooks/UseIsInitial'
 
 // export {
 //   combineReducers,
