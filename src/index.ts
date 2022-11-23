@@ -50,9 +50,6 @@ export {
   conditionalNavigationManager,
   registerResolveCondition,
 } from './Api/ConditionalNavigationManager'
-export {
-  calculateIsInitial,
-} from './Api/NavigationUtils'
 export { useIsInitial } from './Hooks/UseIsInitial'
 
 // export {
