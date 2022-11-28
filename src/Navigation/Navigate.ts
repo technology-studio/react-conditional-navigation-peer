@@ -51,7 +51,7 @@ export const onNavigateAction = ({
       for (const routeName of nextRoutePath) {
         const screenConditions = screenConditionsMap[routeName]
         if (screenConditions && screenConditions.length > 0) {
-          resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, state)
+          resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, state) ?? resolveConditionsResult
         }
       }
       log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition })
