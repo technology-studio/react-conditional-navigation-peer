@@ -79,9 +79,9 @@ export type OnActionFactoryAttributes = {
   setState: UseOnActionOptions['setState'],
 }
 
-export type NavigatePayload = {
-  routeName: string,
-  params?: Record<string, unknown>,
+export type NavigatePayload<ROUTE_NAME extends keyof ReactNavigation.RootParamList> = {
+  routeName: ROUTE_NAME,
+  params?: ReactNavigation.RootParamList[ROUTE_NAME],
   options?: {
     flow?: boolean,
     reset?: boolean,
