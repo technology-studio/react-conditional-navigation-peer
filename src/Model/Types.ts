@@ -93,13 +93,14 @@ export type NavigatePayload<PARAMS_MAP, ROUTE_NAME extends keyof PARAMS_MAP = ke
         options?: NavigatePayloadOptions,
       } | {
         routeName: string,
-        screen: ROUTE_NAME,
-        params: PARAMS_MAP[ROUTE_NAME],
+        params: { screen: ROUTE_NAME, params: PARAMS_MAP[ROUTE_NAME] },
         options?: NavigatePayloadOptions,
       } | {
         routeName: string,
-        screen: string,
-        params: { screen: ROUTE_NAME, params: PARAMS_MAP[ROUTE_NAME] },
+        params: {
+          screen: string,
+          params: { screen: ROUTE_NAME, params: PARAMS_MAP[ROUTE_NAME] },
+        },
         options?: NavigatePayloadOptions,
       }
     : {
@@ -107,12 +108,14 @@ export type NavigatePayload<PARAMS_MAP, ROUTE_NAME extends keyof PARAMS_MAP = ke
         options?: NavigatePayloadOptions,
       } | {
         routeName: string,
-        screen: ROUTE_NAME,
+        params: { screen: ROUTE_NAME },
         options?: NavigatePayloadOptions,
       } | {
         routeName: string,
-        screen: string,
-        params: { screen: ROUTE_NAME },
+        params: {
+          screen: string,
+          params: { screen: ROUTE_NAME },
+        },
         options?: NavigatePayloadOptions,
       }
   : never
