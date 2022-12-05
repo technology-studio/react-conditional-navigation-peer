@@ -79,15 +79,43 @@ export type OnActionFactoryAttributes = {
   setState: UseOnActionOptions['setState'],
 }
 
-export type NavigatePayload<ROUTE_NAME extends keyof ReactNavigation.RootParamList> = {
-  routeName: ROUTE_NAME,
-  params?: ReactNavigation.RootParamList[ROUTE_NAME],
-  options?: {
-    flow?: boolean,
-    reset?: boolean,
-    skipConditionalNavigation?: boolean,
-  },
+type NavigatePayloadOptions = {
+  flow?: boolean,
+  reset?: boolean,
+  skipConditionalNavigation?: boolean,
 }
+
+export type NavigatePayload<PARAMS_MAP, ROUTE_NAME extends keyof PARAMS_MAP = keyof PARAMS_MAP> = ROUTE_NAME extends keyof PARAMS_MAP
+  ? PARAMS_MAP[ROUTE_NAME] extends Record<string, unknown>
+    ? {
+        routeName: ROUTE_NAME,
+        params: PARAMS_MAP[ROUTE_NAME],
+        options?: NavigatePayloadOptions,
+      } | {
+        routeName: string,
+        screen: ROUTE_NAME,
+        params: PARAMS_MAP[ROUTE_NAME],
+        options?: NavigatePayloadOptions,
+      } | {
+        routeName: string,
+        screen: string,
+        params: { screen: ROUTE_NAME, params: PARAMS_MAP[ROUTE_NAME] },
+        options?: NavigatePayloadOptions,
+      }
+    : {
+        routeName: ROUTE_NAME,
+        options?: NavigatePayloadOptions,
+      } | {
+        routeName: string,
+        screen: ROUTE_NAME,
+        options?: NavigatePayloadOptions,
+      } | {
+        routeName: string,
+        screen: string,
+        params: { screen: ROUTE_NAME },
+        options?: NavigatePayloadOptions,
+      }
+  : never
 
 export type ConditionConfig = {
   conditions?: ((state: DefaultRootState) => Condition[]) | Condition[],
