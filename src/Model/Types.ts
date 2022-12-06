@@ -14,9 +14,11 @@ import type {
 import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
 import type { DefaultRootState } from '@txo-peer-dep/redux'
+import type { RequiredKeys } from 'utility-types'
 
 export type NavigationAction = RNNavigationAction & {
   payload?: Record<string, unknown> & {
+    name?: string,
     params?: Record<string, unknown>,
   },
   // navigate
@@ -86,8 +88,24 @@ type NavigatePayloadOptions = {
 }
 
 export type NavigatePayload<PARAMS_MAP, ROUTE_NAME extends keyof PARAMS_MAP = keyof PARAMS_MAP> = ROUTE_NAME extends keyof PARAMS_MAP
-  ? PARAMS_MAP[ROUTE_NAME] extends Record<string, unknown>
+  ? RequiredKeys<PARAMS_MAP[ROUTE_NAME]> extends never
     ? {
+        routeName: ROUTE_NAME,
+        params?: PARAMS_MAP[ROUTE_NAME],
+        options?: NavigatePayloadOptions,
+      } | {
+        routeName: string,
+        params: { screen: ROUTE_NAME, params?: PARAMS_MAP[ROUTE_NAME] },
+        options?: NavigatePayloadOptions,
+      } | {
+        routeName: string,
+        params: {
+          screen: string,
+          params: { screen: ROUTE_NAME, params?: PARAMS_MAP[ROUTE_NAME] },
+        },
+        options?: NavigatePayloadOptions,
+      }
+    : {
         routeName: ROUTE_NAME,
         params: PARAMS_MAP[ROUTE_NAME],
         options?: NavigatePayloadOptions,
@@ -100,21 +118,6 @@ export type NavigatePayload<PARAMS_MAP, ROUTE_NAME extends keyof PARAMS_MAP = ke
         params: {
           screen: string,
           params: { screen: ROUTE_NAME, params: PARAMS_MAP[ROUTE_NAME] },
-        },
-        options?: NavigatePayloadOptions,
-      }
-    : {
-        routeName: ROUTE_NAME,
-        options?: NavigatePayloadOptions,
-      } | {
-        routeName: string,
-        params: { screen: ROUTE_NAME },
-        options?: NavigatePayloadOptions,
-      } | {
-        routeName: string,
-        params: {
-          screen: string,
-          params: { screen: ROUTE_NAME },
         },
         options?: NavigatePayloadOptions,
       }
