@@ -13,7 +13,6 @@ import type {
 } from '@react-navigation/native'
 import type UseOnActionType from '@react-navigation/core/lib/typescript/src/useOnAction'
 import type { NavigationState } from '@react-navigation/routers'
-import type { DefaultRootState } from '@txo-peer-dep/redux'
 import type { RequiredKeys } from 'utility-types'
 
 export type NavigationAction = RNNavigationAction & {
@@ -126,8 +125,8 @@ export type NavigatePayload<PARAMS_MAP, ROUTE_NAME extends keyof PARAMS_MAP = ke
   : never
 
 export type ConditionConfig = {
-  conditions?: ((state: DefaultRootState) => Condition[]) | Condition[],
-  statusConditions?: ((state: DefaultRootState) => Condition[]) | Condition[],
+  conditions?: (() => Condition[]) | Condition[],
+  statusConditions?: (() => Condition[]) | Condition[],
 }
 
 export type NavigationProps<PARAMS extends Record<string, unknown>> = {

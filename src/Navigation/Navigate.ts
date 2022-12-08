@@ -50,7 +50,7 @@ export const onNavigateAction = ({
     if (state) {
       let resolveConditionsResult: ResolveConditionsResult | undefined
       for (const routeName of nextRoutePath) {
-        const screenConditions = getScreenNavigationConditions(screenConditionConfigMap[routeName], state)
+        const screenConditions = getScreenNavigationConditions(screenConditionConfigMap[routeName])
         if (screenConditions && screenConditions.length > 0) {
           resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, state) ?? resolveConditionsResult
         }
