@@ -28,7 +28,7 @@ const VOID = 'void'
 
 export const onNavigateAction = ({
   action,
-  getState,
+  getRootState,
   nextOnAction,
   originalOnAction,
   restArgs,
@@ -41,7 +41,7 @@ export const onNavigateAction = ({
     reset,
     skipConditionalNavigation,
   } = action
-  const state = getState()
+  const state = getRootState?.()
 
   const nextRoutePath = getRoutePathFromAction(action) ?? []
   const leafRouteName = last(nextRoutePath)

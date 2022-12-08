@@ -63,6 +63,7 @@ type RestArgs = Parameters<OnAction> extends [Parameters<OnAction>[0], ...infer 
 export type OnActionAttributes = {
   action: NavigationAction,
   getState: UseOnActionOptions['getState'],
+  getRootState: (() => NavigationState) | undefined,
   nextOnAction: OnAction,
   originalOnAction: OnAction,
   restArgs: RestArgs,
@@ -74,6 +75,7 @@ export type OnActionAttributes = {
 
 export type OnActionFactoryAttributes = {
   getState: UseOnActionOptions['getState'],
+  getRootState: (() => NavigationState) | undefined,
   nextOnAction: OnAction,
   router: Router<NavigationState, NavigationAction>,
   routerConfigOptions: RouterConfigOptions,
