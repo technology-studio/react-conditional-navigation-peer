@@ -12,7 +12,6 @@ import {
 } from '../Api/ConditionalNavigationManager'
 import type {
   OnActionAttributes,
-  ResolveConditionsResult,
   WithConditionalNavigationState,
 } from '../Model/Types'
 import {
@@ -50,17 +49,16 @@ export const onNavigateAction = ({
   log.debug('NAVIGATE', { action, navigationState })
   if (!skipConditionalNavigation) {
     if (navigationState) {
-      let resolveConditionsResult: ResolveConditionsResult | undefined
       for (const routeName of nextRoutePath) {
         const screenConditions = getScreenNavigationConditions(screenConditionConfigMap[routeName])
         if (screenConditions && screenConditions.length > 0) {
-          resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, navigationState, getContext) ?? resolveConditionsResult
-        }
-        log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition, screenConditionConfigMap })
-        if (resolveConditionsResult) {
-          const activeLeafRoute = getActiveLeafRoute(navigationState)
-          activeLeafRoute.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
-          return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
+          const resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, navigationState, getContext)
+          log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition, screenConditionConfigMap })
+          if (resolveConditionsResult) {
+            const activeLeafRoute = getActiveLeafRoute(navigationState)
+            activeLeafRoute.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
+            return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
+          }
         }
       }
     }
