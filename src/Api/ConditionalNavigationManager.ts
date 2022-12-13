@@ -18,6 +18,8 @@ import type {
   ResolveConditionsResult,
 } from '../Model/Types'
 
+import { cloneState } from './StateHelper'
+
 const log = new Log('txo.react-conditional-navigation.Api.ConditionalNavigationManager')
 
 export type ResolveCondition<CONDITION extends Condition> = (
@@ -59,7 +61,7 @@ class ConditionalNavigationManager<CONDITION extends Condition> {
                 condition,
                 postponedAction: navigationAction,
                 logicalTimestamp: this.tickLogicalClock(),
-                previousState: JSON.parse(JSON.stringify(navigationState)),
+                previousState: cloneState(navigationState),
               },
             }
           }

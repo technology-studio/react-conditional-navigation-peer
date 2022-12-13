@@ -63,7 +63,7 @@ export type OnActionAttributes = {
   action: NavigationAction,
   getContext: (() => ResolveConditionContext) | undefined,
   getState: UseOnActionOptions['getState'],
-  getRootState: (() => NavigationState) | undefined,
+  getRootState: () => NavigationState,
   nextOnAction: OnAction,
   originalOnAction: OnAction,
   restArgs: RestArgs,
@@ -76,7 +76,7 @@ export type OnActionAttributes = {
 export type OnActionFactoryAttributes = {
   getContext: (() => ResolveConditionContext) | undefined,
   getState: UseOnActionOptions['getState'],
-  getRootState: (() => NavigationState) | undefined,
+  getRootState: () => NavigationState,
   nextOnAction: OnAction,
   router: Router<NavigationState, NavigationAction>,
   routerConfigOptions: RouterConfigOptions,

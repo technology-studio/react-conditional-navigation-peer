@@ -21,6 +21,7 @@ import {
   getRoutePathFromAction,
   getScreenNavigationConditions,
 } from '../Api/NavigationUtils'
+import { cloneState } from '../Api/StateHelper'
 
 const log = new Log('txo.react-conditional-navigation.Navigation.Navigate')
 
@@ -42,7 +43,7 @@ export const onNavigateAction = ({
     reset,
     skipConditionalNavigation,
   } = action
-  const navigationState = getRootState?.()
+  const navigationState = getRootState()
 
   const nextRoutePath = getRoutePathFromAction(action) ?? []
   const leafRouteName = last(nextRoutePath)
@@ -55,12 +56,12 @@ export const onNavigateAction = ({
         if (screenConditions && screenConditions.length > 0) {
           resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, navigationState, getContext) ?? resolveConditionsResult
         }
-      }
-      log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition, screenConditionConfigMap })
-      if (resolveConditionsResult) {
-        const activeLeafRoute = getActiveLeafRoute(navigationState)
-        activeLeafRoute.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
-        return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
+        log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition, screenConditionConfigMap })
+        if (resolveConditionsResult) {
+          const activeLeafRoute = getActiveLeafRoute(navigationState)
+          activeLeafRoute.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
+          return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
+        }
       }
     }
   }
@@ -85,7 +86,7 @@ export const onNavigateAction = ({
         condition: { key: VOID },
         postponedAction: null,
         logicalTimestamp: conditionalNavigationManager.tickLogicalClock(),
-        previousState: JSON.parse(JSON.stringify(navigationState)),
+        previousState: cloneState(navigationState),
       }
     }
   }
