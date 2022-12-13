@@ -44,7 +44,8 @@ useOnActionObject.default = function useOnAction (options: UseOnActionOptions): 
       return onActionFactory(onAction)({
         getContext,
         getState,
-        getRootState: navigationContainerRefContext?.getRootState,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        getRootState: navigationContainerRefContext!.getRootState,
         nextOnAction,
         screenConditionConfigMap,
         setState,
@@ -54,7 +55,7 @@ useOnActionObject.default = function useOnAction (options: UseOnActionOptions): 
     }
 
     return onAction(...args)
-  }, [getState, navigationContainerRefContext?.getRootState, onAction, router, routerConfigOptions, setState])
+  }, [getState, navigationContainerRefContext, onAction, router, routerConfigOptions, setState])
 
   return nextOnAction
 }
