@@ -14,6 +14,7 @@ import type NavigationContainerRefContextType from '@react-navigation/core/lib/t
 import type {
   OnAction,
   OnActionFactoryAttributes,
+  ResolveConditionContext,
   UseOnActionOptions,
 } from '../Model/Types'
 import { screenConditionConfigMap } from '../Api/ConditionManager'
@@ -26,9 +27,11 @@ const NavigationContainerRefContextObject = require('@react-navigation/core/lib/
 const NavigationContainerRefContext = NavigationContainerRefContextObject.default as typeof NavigationContainerRefContextType
 
 let onActionFactory: ((onAction: OnAction) => (attributes: OnActionFactoryAttributes, ...args: Parameters<OnAction>) => boolean) | null = null
+let getContext: (() => ResolveConditionContext) | undefined
 
-export const registerOnActionFactory = (_onActionFactory: typeof onActionFactory): void => {
+export const registerOnActionFactory = (_onActionFactory: typeof onActionFactory, _getContext: (() => ResolveConditionContext) | undefined): void => {
   onActionFactory = _onActionFactory
+  getContext = _getContext
 }
 
 useOnActionObject.default = function useOnAction (options: UseOnActionOptions): OnAction {
@@ -39,6 +42,7 @@ useOnActionObject.default = function useOnAction (options: UseOnActionOptions): 
   const nextOnAction: typeof onAction = useCallback((...args: Parameters<OnAction>) => {
     if (onActionFactory) {
       return onActionFactory(onAction)({
+        getContext,
         getState,
         getRootState: navigationContainerRefContext?.getRootState,
         nextOnAction,

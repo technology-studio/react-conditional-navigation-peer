@@ -61,6 +61,7 @@ type RestArgs = Parameters<OnAction> extends [Parameters<OnAction>[0], ...infer 
 
 export type OnActionAttributes = {
   action: NavigationAction,
+  getContext: (() => ResolveConditionContext) | undefined,
   getState: UseOnActionOptions['getState'],
   getRootState: (() => NavigationState) | undefined,
   nextOnAction: OnAction,
@@ -73,6 +74,7 @@ export type OnActionAttributes = {
 }
 
 export type OnActionFactoryAttributes = {
+  getContext: (() => ResolveConditionContext) | undefined,
   getState: UseOnActionOptions['getState'],
   getRootState: (() => NavigationState) | undefined,
   nextOnAction: OnAction,
@@ -136,3 +138,6 @@ export type NavigationProps<PARAMS extends Record<string, unknown>> = {
 export type WithConditionalNavigationState<TYPE> = TYPE & {
   conditionalNavigation?: ConditionalNavigationState,
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ResolveConditionContext {}

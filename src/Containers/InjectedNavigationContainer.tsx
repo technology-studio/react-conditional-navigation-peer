@@ -16,20 +16,22 @@ import { useFlipper } from '@react-navigation/devtools'
 import {
   onActionFactory,
 } from '../Navigation/OnActionFactory'
+import type { ResolveConditionContext } from '../Model/Types'
 
 import { registerOnActionFactory } from './ReactNavigationInjection'
 
 type Props = {
   children: React.ReactNode,
+  getContext?: () => ResolveConditionContext,
 }
 
-export const InjectedNavigationContainer = ({ children }: Props): JSX.Element => {
+export const InjectedNavigationContainer = ({ children, getContext }: Props): JSX.Element => {
   const navigationRef = useNavigationContainerRef()
   useFlipper(navigationRef)
 
   useEffect(() => {
-    registerOnActionFactory(onActionFactory)
-  }, [])
+    registerOnActionFactory(onActionFactory, getContext)
+  }, [getContext])
 
   return (
     <NavigationContainer ref={navigationRef}>
