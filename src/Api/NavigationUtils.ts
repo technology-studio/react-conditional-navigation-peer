@@ -114,11 +114,11 @@ export const calculateIsInitial = (state: NavigationState, currentRoute: Route<s
 }
 
 export const getScreenNavigationConditions = (
-  { conditions }: ConditionConfig,
-  state: NavigationState,
+  conditionConfig: ConditionConfig | undefined,
 ): Condition[] | undefined => {
+  const { conditions } = conditionConfig ?? {}
   if (typeof conditions === 'function') {
-    return conditions(state)
+    return conditions()
   }
   return conditions
 }
