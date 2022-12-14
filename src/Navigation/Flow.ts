@@ -12,17 +12,18 @@ import { Log } from '@txo/log'
 import type {
   OnActionAttributes,
   ConditionalNavigationState,
+  WithConditionalNavigationState,
 } from '../Model/Types'
 
 const log = new Log('txo.react-conditional-navigation.Navigation.Flow')
 
 const findLatestConditionNavigationState = (
-  rootStackNavigatorRoutes: NavigationState['routes'],
-): ConditionalNavigationState | undefined => rootStackNavigatorRoutes.reduce<{
+  routes: NavigationState['routes'],
+): ConditionalNavigationState | undefined => routes.reduce<{
   latestConditionalNavigation: ConditionalNavigationState | undefined,
   latestLogicalTimestamp: number,
 }>(({ latestConditionalNavigation, latestLogicalTimestamp }, route) => {
-  const { conditionalNavigation } = route
+  const conditionalNavigation: ConditionalNavigationState | undefined = (route as WithConditionalNavigationState<typeof route>).conditionalNavigation
   if (conditionalNavigation) {
     const { logicalTimestamp } = conditionalNavigation
     log.debug('findLatest', { conditionalNavigation, logicalTimestamp, latestLogicalTimestamp, latestConditionalNavigation })
@@ -61,4 +62,6 @@ export const abstractOnFlowActionFactory = (type: 'CANCEL_FLOW' | 'FINISH_FLOW_A
 
 export const onCancelFlowAction = abstractOnFlowActionFactory('CANCEL_FLOW')
 
+// TODO: if the coresponding conditional navigation state was destroyed, we shouldn't pick the one before
+// we can solve it in the future by creating clockTimestampHistory array and we will be popping the last one and trying to find conditional navigation state with the same clockTimestamp
 export const onFinishFlowAndContinueAction = abstractOnFlowActionFactory('FINISH_FLOW_AND_CONTINUE')

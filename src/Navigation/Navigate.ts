@@ -21,6 +21,7 @@ import {
   getRoutePathFromAction,
   getScreenNavigationConditions,
 } from '../Api/NavigationUtils'
+import { cloneState } from '../Api/StateHelper'
 
 const log = new Log('txo.react-conditional-navigation.Navigation.Navigate')
 
@@ -28,7 +29,8 @@ const VOID = 'void'
 
 export const onNavigateAction = ({
   action,
-  getState,
+  getContext,
+  getRootState,
   nextOnAction,
   originalOnAction,
   restArgs,
@@ -41,35 +43,36 @@ export const onNavigateAction = ({
     reset,
     skipConditionalNavigation,
   } = action
-  const state = getState()
+  const navigationState = getRootState()
 
   const nextRoutePath = getRoutePathFromAction(action) ?? []
   const leafRouteName = last(nextRoutePath)
-  log.debug('NAVIGATE', { action, state })
+  log.debug('NAVIGATE', { action, navigationState })
   if (!skipConditionalNavigation) {
-    if (state) {
+    if (navigationState) {
       let resolveConditionsResult: ResolveConditionsResult | undefined
       for (const routeName of nextRoutePath) {
-        const screenConditions = getScreenNavigationConditions(screenConditionConfigMap[routeName], state)
+        const screenConditions = getScreenNavigationConditions(screenConditionConfigMap[routeName])
         if (screenConditions && screenConditions.length > 0) {
-          resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, state) ?? resolveConditionsResult
+          resolveConditionsResult = conditionalNavigationManager.resolveConditions(screenConditions, action, navigationState, getContext) ?? resolveConditionsResult
         }
-      }
-      log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition, screenConditionConfigMap })
-      if (resolveConditionsResult) {
-        const activeLeafRoute = getActiveLeafRoute(state)
-        activeLeafRoute.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
-        return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
+        log.debug('N: RESOLVE CONDITIONS RESULT', { resolveConditionsResult, action, _conditionToResolveCondition: conditionalNavigationManager._conditionToResolveCondition, screenConditionConfigMap })
+        if (resolveConditionsResult) {
+          const activeLeafRoute = getActiveLeafRoute(navigationState)
+          activeLeafRoute.conditionalNavigation = resolveConditionsResult.conditionalNavigationState
+          return nextOnAction(resolveConditionsResult.navigationAction, ...restArgs)
+        }
       }
     }
   }
 
-  if (reset) {
+  const name = payload?.name
+  if (reset && name) {
     log.debug('NAVIGATE WITH RESET')
     const newState = {
       index: 0,
       routes: [
-        { name: leafRouteName, params: payload?.params },
+        { name, params: payload?.params },
       ],
     }
     setState(newState)
@@ -77,18 +80,18 @@ export const onNavigateAction = ({
   }
 
   if (flow) {
-    const route = state && typeof state.index === 'number' ? state.routes[state.index] : undefined
+    const route = navigationState && typeof navigationState.index === 'number' ? navigationState.routes[navigationState.index] : undefined
     if (route) {
       (route as WithConditionalNavigationState<typeof route>).conditionalNavigation = {
         condition: { key: VOID },
         postponedAction: null,
         logicalTimestamp: conditionalNavigationManager.tickLogicalClock(),
-        previousState: JSON.parse(JSON.stringify(state)),
+        previousState: cloneState(navigationState),
       }
     }
   }
 
-  const destinationNode = getExistingRouteByRouteName(state, leafRouteName)
+  const destinationNode = getExistingRouteByRouteName(navigationState, leafRouteName)
   if (destinationNode?.conditionalNavigation) {
     delete destinationNode.conditionalNavigation
   }
