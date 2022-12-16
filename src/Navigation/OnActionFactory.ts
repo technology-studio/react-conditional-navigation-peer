@@ -13,10 +13,10 @@ import type {
 } from '../Model/Types'
 
 // import { backActionCreator } from './Back'
-// import {
-//   cancelFlowActionCreator,
-//   finishFlowAndContinueActionCreator,
-// } from './Flow'
+import {
+  onCancelFlowAction,
+  onFinishFlowAndContinueAction,
+} from './Flow'
 import { onNavigateAction } from './Navigate'
 
 const log = new Log('txo.react-conditional-navigation.Navigation.onActionFactory')
@@ -38,8 +38,8 @@ export const onActionFactory = (originalOnAction: OnAction) => (attributes: OnAc
   log.debug('N: onAction', { screenConditionConfigMap, action })
   const onActionAttributes: OnActionAttributes = { action, getContext, getState, getRootState, setState, nextOnAction, originalOnAction, restArgs, router, routerConfigOptions, screenConditionConfigMap }
   const onActionMap = {
-    // CANCEL_FLOW: cancelFlowActionCreator,
-    // FINISH_FLOW_AND_CONTINUE: finishFlowAndContinueActionCreator,
+    CANCEL_FLOW: onCancelFlowAction,
+    FINISH_FLOW_AND_CONTINUE: onFinishFlowAndContinueAction,
     // GO_BACK: backActionCreator,
     NAVIGATE: onNavigateAction,
   }
