@@ -12,7 +12,7 @@ import type {
   OnActionFactoryAttributes,
 } from '../Model/Types'
 
-// import { backActionCreator } from './Back'
+import { onBackAction } from './Back'
 import {
   onCancelFlowAction,
   onFinishFlowAndContinueAction,
@@ -40,7 +40,7 @@ export const onActionFactory = (originalOnAction: OnAction) => (attributes: OnAc
   const onActionMap = {
     CANCEL_FLOW: onCancelFlowAction,
     FINISH_FLOW_AND_CONTINUE: onFinishFlowAndContinueAction,
-    // GO_BACK: backActionCreator,
+    GO_BACK: onBackAction,
     NAVIGATE: onNavigateAction,
   }
 
