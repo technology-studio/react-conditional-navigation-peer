@@ -20,6 +20,8 @@ export type NavigationAction = RNNavigationAction & {
     name?: string,
     params?: Record<string, unknown>,
   },
+  // requireConditions
+  conditionList?: Condition[],
   // navigate
   flow?: boolean,
   reset?: boolean,
@@ -130,6 +132,10 @@ export type NavigatePayload<PARAMS_MAP, ROUTE_NAME extends keyof PARAMS_MAP = ke
         options?: NavigatePayloadOptions,
       }
   : never
+
+export type BackPayload = {
+  count: number,
+}
 
 export type ConditionConfig = {
   conditions?: (() => Condition[]) | Condition[],
