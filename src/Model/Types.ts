@@ -27,10 +27,7 @@ export type NavigationAction = RNNavigationAction & {
   reset?: boolean,
   skipConditionalNavigation?: boolean,
   // back
-  backToRouteName?: boolean,
   count?: number,
-  key?: string,
-  routeName?: string,
 }
 
 export type ConditionalNavigationState = {
