@@ -4,7 +4,10 @@
  * @Copyright: Technology Studio
 **/
 
-import type { NavigationAction } from '@react-navigation/native'
+import type {
+  Condition,
+  NavigationAction,
+} from '../Model/Types'
 
 export const ConditionalActions = {
   cancelFlow: (): NavigationAction => ({
@@ -12,5 +15,12 @@ export const ConditionalActions = {
   }),
   finishFlowAndContinue: (): NavigationAction => ({
     type: 'FINISH_FLOW_AND_CONTINUE',
+  }),
+  requireConditions: (conditionList?: Condition[]): NavigationAction => ({
+    type: 'REQUIRE_CONDITIONS',
+    conditionList,
+  }),
+  validateConditions: (): NavigationAction => ({
+    type: 'VALIDATE_CONDITIONS',
   }),
 }

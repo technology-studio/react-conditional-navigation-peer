@@ -16,6 +16,7 @@ import type { NavigationState } from '@react-navigation/routers'
 import type { RequiredKeys } from 'utility-types'
 
 export type NavigationAction = RNNavigationAction & {
+  conditionList?: Condition[],
   payload?: Record<string, unknown> & {
     name?: string,
     params?: Record<string, unknown>,
